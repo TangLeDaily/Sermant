@@ -72,8 +72,8 @@ public class ZookeeperInstanceSupplierInterceptor extends InstanceInterceptorSup
      */
     private List<ServiceInstance> filterDiscoveryServiceInstance(List<ServiceInstance> serviceInstances) {
         return serviceInstances.stream()
-            .filter(serviceInstance -> SERVICE_INSTANCE_CLASS_NAME.equals(serviceInstance.getClass().getName()))
-            .collect(Collectors.toList());
+                .filter(serviceInstance -> SERVICE_INSTANCE_CLASS_NAME.equals(serviceInstance.getClass().getName()))
+                .collect(Collectors.toList());
     }
 
     private List<ServiceInstance> convertAndMerge(List<ServiceInstance> microServiceInstances,
