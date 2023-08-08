@@ -3,10 +3,10 @@ description: "do something common for all test"
 runs:
   using: "composite"
   steps:
-    - name: Set up JDK 17
+    - name: Set up JDK 13
       uses: actions/setup-java@v3
       with:
-        java-version: '17'
+        java-version: '13'
         distribution: 'adopt'
         cache: maven
     - name: download zookeeper

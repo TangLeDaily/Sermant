@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java_version: [17]
+        java_version: [13]
         os: [ubuntu-latest]
     permissions:
       checks: write
