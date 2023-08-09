@@ -59,6 +59,8 @@ public class MonitorTest {
             String[] data = metric.split(" ");
             if (data.length >= 2) {
                 map.put(data[0], Double.parseDouble(data[1]));
+                System.out.println("metricEnum: "+data[0]);
+                System.out.println("mapData:"+Double.parseDouble(data[1]));
             }
         }
         Assertions.assertFalse(map.isEmpty(), "解析响应结果获取指标信息失败");
