@@ -165,10 +165,10 @@ download-midwares-and-cache:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 11
+      - name: Set up JDK 8
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: '8'
           distribution: 'adopt'
           cache: maven
       - name: cache agent
