@@ -28,7 +28,7 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.lang.instrument.Instrumentation;
 import java.net.BindException;
-import java.security.acl.NotOwnerException;
+//import java.security.acl.NotOwnerException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ConcurrentModificationException;
@@ -104,7 +104,7 @@ public class AgentLauncher {
 
             LOGGER.info("Load sermant done. ");
         } catch (FileNotFoundException | OutOfMemoryError | StackOverflowError | MissingResourceException
-                 | NotOwnerException | JarException | ConcurrentModificationException | BindException
+                 | JarException | ConcurrentModificationException | BindException
                  | InsufficientResourcesException | SQLException e) {
             LOGGER.severe("Loading sermant agent failed. ");
         } catch (Exception e) {
