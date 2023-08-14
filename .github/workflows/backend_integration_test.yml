@@ -59,7 +59,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: start backend use memory test
-        uses: ./.github/actions/scenarios/backend/memory
+        uses: ./.github/actions/scenarios/backend/memory/JDK8
       - name: start backend use redis test
         uses: ./.github/actions/scenarios/backend/redis
 

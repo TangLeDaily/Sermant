@@ -49,6 +49,11 @@ public class JvmCollectorService extends SwitchService implements PluginService 
     private static final List<String> NEW_GEN_NAME_LIST = Arrays.asList("PS Scavenge", "ParNew", "Copy", "G1 Young "
             + "Generation", "ZGC Cycles");
 
+    /**
+     * JDK11中不分代的Epsilon GC的名称
+     */
+    private static final String EPSILON_GEN_NAME = "Epsilon Heap";
+
     private static final int PERCENT = 100;
 
     @Override
@@ -75,23 +80,34 @@ public class JvmCollectorService extends SwitchService implements PluginService 
      * 填充GC指标信息
      *
      * @param metricList 指标收集集合
-     * @param gcMxBeans  GC信息
+     * @param gcMxBeans GC信息
      */
     private void fillGcMetric(List<MetricFamilySamples> metricList, List<GarbageCollectorMXBean> gcMxBeans) {
         if (CollectionUtil.isEmpty(gcMxBeans)) {
             return;
         }
         gcMxBeans.forEach(gcMxBean -> {
-            if (NEW_GEN_NAME_LIST.contains(gcMxBean.getName())) {
+            long genCount = gcMxBean.getCollectionCount();
+            long genSpend = gcMxBean.getCollectionTime();
+            if (EPSILON_GEN_NAME.equals(gcMxBean.getName())) {
                 metricList.add(MetricFamilyBuild.buildGaugeMetric(MetricEnum.NEW_GEN_COUNT,
-                        gcMxBean.getCollectionCount()));
+                        genCount));
                 metricList.add(MetricFamilyBuild.buildGaugeMetric(MetricEnum.NEW_GEN_SPEND,
-                        gcMxBean.getCollectionTime()));
+                        genSpend));
+                metricList.add(MetricFamilyBuild.buildGaugeMetric(MetricEnum.OLD_GEN_COUNT,
+                        genCount));
+                metricList.add(MetricFamilyBuild.buildGaugeMetric(MetricEnum.OLD_GEN_SPEND,
+                        genSpend));
+            } else if (NEW_GEN_NAME_LIST.contains(gcMxBean.getName())) {
+                metricList.add(MetricFamilyBuild.buildGaugeMetric(MetricEnum.NEW_GEN_COUNT,
+                        genCount));
+                metricList.add(MetricFamilyBuild.buildGaugeMetric(MetricEnum.NEW_GEN_SPEND,
+                        genSpend));
             } else {
                 metricList.add(MetricFamilyBuild.buildGaugeMetric(MetricEnum.OLD_GEN_COUNT,
-                        gcMxBean.getCollectionCount()));
+                        genCount));
                 metricList.add(MetricFamilyBuild.buildGaugeMetric(MetricEnum.OLD_GEN_SPEND,
-                        gcMxBean.getCollectionTime()));
+                        genSpend));
             }
         });
     }
@@ -99,7 +115,7 @@ public class JvmCollectorService extends SwitchService implements PluginService 
     /**
      * 填充内存指标信息
      *
-     * @param metricList        指标信息集合
+     * @param metricList 指标信息集合
      * @param memoryPoolMxBeans 内存指标信息
      */
     private void fillMemoryMetric(List<MetricFamilySamples> metricList, List<MemoryPoolMXBean> memoryPoolMxBeans) {
@@ -116,7 +132,7 @@ public class JvmCollectorService extends SwitchService implements PluginService 
     /**
      * 收集线程指标信息
      *
-     * @param metricList   性能指标信息
+     * @param metricList 性能指标信息
      * @param threadMxBean 线程信息
      */
     private void fillThreadMetric(List<MetricFamilySamples> metricList, ThreadMXBean threadMxBean) {
@@ -130,8 +146,8 @@ public class JvmCollectorService extends SwitchService implements PluginService 
      * 填充内存指标
      *
      * @param metricFamilySamplesList 指标集合
-     * @param type                    类型
-     * @param memoryUsage             指标信息
+     * @param type 类型
+     * @param memoryUsage 指标信息
      */
     private void fillMetric(List<MetricFamilySamples> metricFamilySamplesList, String type, MemoryUsage memoryUsage) {
         Optional<MemoryType> optional = MemoryType.getEnumByType(type);

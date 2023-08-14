@@ -101,7 +101,7 @@ jobs:
         with:
           fetch-depth: 100
       - name: common operations
-        uses: ./.github/actions/common/dubbo
+        uses: ./.github/actions/common/dubbo/JDK8
       - name: (dubbo router) test for ${{ matrix.dubbo-version }}-${{ matrix.dubbo-versions }}
         if: env.enableDubboRouter == 'true'
         uses: ./.github/actions/scenarios/dubbo/router
