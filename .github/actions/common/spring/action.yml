@@ -3,10 +3,10 @@ description: "do something common for all test"
 runs:
   using: "composite"
   steps:
-    - name: Set up JDK 11
+    - name: Set up JDK ${{ javaVersion }}
       uses: actions/setup-java@v3
       with:
-        java-version: '11'
+        java-version: ${{ javaVersion }}
         distribution: 'adopt'
         cache: maven
     - name: download zookeeper
