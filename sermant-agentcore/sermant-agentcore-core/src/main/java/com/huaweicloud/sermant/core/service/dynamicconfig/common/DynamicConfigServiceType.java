@@ -37,6 +37,10 @@ public enum DynamicConfigServiceType {
     KIE,
 
     /**
+     * Nacos 配置中心
+     */
+    NACOS,
+    /**
      * 配置中心无实现
      */
     NOP;
