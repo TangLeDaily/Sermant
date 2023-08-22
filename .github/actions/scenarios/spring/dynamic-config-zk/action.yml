@@ -23,7 +23,8 @@ runs:
         service.meta.application: disable
         service.meta.environment: development
       run: |
-        nohup java -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=default \
+        nohup java --add-opens java.base/java.lang=ALL-UNNAMED -javaagent:sermant-agent-${{ env.sermantVersion 
+        }}/agent/sermant-agent.jar=appName=default \
         -Dspring.cloud.bootstrap.enabled=true -jar \
         sermant-integration-tests/spring-test/spring-zookeeper-config/target/zookeeper-config.jar > ${{ env.logDir }}/zk-disable.log \
         2>&1 &
@@ -47,7 +48,8 @@ runs:
         service.meta.environment: development
       run: |
         jps -l | grep -E "zookeeper-config" | awk '{print $1}' | xargs -n 1 kill -9
-        nohup java -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=default \
+        nohup java --add-opens java.base/java.lang=ALL-UNNAMED -javaagent:sermant-agent-${{ env.sermantVersion 
+        }}/agent/sermant-agent.jar=appName=default \
         -Dspring.cloud.bootstrap.enabled=true -jar \
         sermant-integration-tests/spring-test/spring-zookeeper-config/target/zookeeper-config.jar > ${{ env.logDir }}/zk-enable.log 2>&1 &
     - name: wait for ready and test
