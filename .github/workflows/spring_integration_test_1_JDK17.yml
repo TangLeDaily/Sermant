@@ -1,4 +1,4 @@
-name: Spring Integration Test1
+name: Spring Integration Test1 JDK17
 env:
   projectSpringBootVersion: 2.2.0.RELEASE
   sermantVersion: 1.0.0
