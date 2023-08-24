@@ -21,16 +21,16 @@ import com.huaweicloud.sermant.core.config.ConfigManager;
 import com.huaweicloud.sermant.core.plugin.config.ServiceMeta;
 import com.huaweicloud.sermant.core.plugin.subscribe.ConfigSubscriber;
 import com.huaweicloud.sermant.core.service.ServiceManager;
-import com.huaweicloud.sermant.core.service.dynamicconfig.DynamicConfigService;
 import com.huaweicloud.sermant.core.service.dynamicconfig.common.DynamicConfigListener;
+import com.huaweicloud.sermant.core.utils.MapUtils;
 import com.huaweicloud.sermant.core.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
@@ -78,7 +78,7 @@ public class DynamicConfigSubscribe implements ConfigSubscriber {
         try {
             this.nacosDynamicConfigService = ServiceManager.getService(NacosDynamicConfigService.class);
         } catch (IllegalArgumentException e) {
-            LOGGER.severe("nacosDynamicConfigService is not enabled!");
+            LOGGER.log(Level.SEVERE, "nacosDynamicConfigService is not enabled!");
             this.nacosDynamicConfigService = null;
         }
         String allowedChars = "[a-zA-Z.:\\-_]+";
@@ -95,8 +95,9 @@ public class DynamicConfigSubscribe implements ConfigSubscriber {
         buildGroupSubscribers();
         boolean result = true;
         for (String group : listenerCache) {
-            System.out.println(group);
-            result &= nacosDynamicConfigService.doAddConfigListener(key, group, listener);
+            boolean groupResult = nacosDynamicConfigService.doAddConfigListener(key, group, listener);
+            printSubscribeMsg(group, groupResult);
+            result &= groupResult;
         }
         return result;
     }
@@ -113,6 +114,24 @@ public class DynamicConfigSubscribe implements ConfigSubscriber {
             result &= nacosDynamicConfigService.doRemoveConfigListener(key, group);
         }
         return result;
+    }
+
+    private void printSubscribeMsg(String group, boolean groupResult) {
+        if (pluginName != null) {
+            if (groupResult) {
+                LOGGER.log(Level.INFO, "Plugin {0} has Success to subscribe group {1}", new String[]{pluginName,
+                        group});
+            } else {
+                LOGGER.log(Level.WARNING, "Plugin {0} has Failed to subscribe group {1}", new String[]{pluginName,
+                        group});
+            }
+        } else {
+            if (groupResult) {
+                LOGGER.log(Level.INFO, "Success to subscribe group {0}", group);
+            } else {
+                LOGGER.log(Level.WARNING, "Failed to subscribe group {0}", group);
+            }
+        }
     }
 
     private void buildGroupSubscribers() {
@@ -156,7 +175,7 @@ public class DynamicConfigSubscribe implements ConfigSubscriber {
      * @return labelGroup 例如: app:sc_service:helloService
      */
     public static String createLabelGroup(Map<String, String> labels) {
-        if (labels == null || labels.isEmpty()) {
+        if (MapUtils.isEmpty(labels)) {
             return StringUtils.EMPTY;
         }
         final StringBuilder group = new StringBuilder();
@@ -167,8 +186,8 @@ public class DynamicConfigSubscribe implements ConfigSubscriber {
         for (String key : keys) {
             String value = labels.get(key);
             if (key == null || value == null) {
-                LOGGER.warning(String.format(Locale.ENGLISH, "Invalid group label, key = %s, value = %s",
-                        key, value));
+                LOGGER.log(Level.WARNING, "Invalid group label, key = {0}, value = {1}",
+                        new String[]{key, value});
                 continue;
             }
             group.append(key).append(":").append(value).append("_");
@@ -177,7 +196,7 @@ public class DynamicConfigSubscribe implements ConfigSubscriber {
             return StringUtils.EMPTY;
         }
         if (!pattern.matcher(group).matches()) {
-            LOGGER.warning("Label group naming error");
+            LOGGER.log(Level.WARNING, "Label group naming error");
             return StringUtils.EMPTY;
         }
         return group.deleteCharAt(group.length() - 1).toString();

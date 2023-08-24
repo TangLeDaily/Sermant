@@ -57,6 +57,7 @@ import java.util.TimerTask;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
@@ -376,9 +377,8 @@ public class NacosDynamicConfigService extends DynamicConfigService {
                     listenerNacos = instantiateListener(key, group, nacosListener.getDynamicConfigListener());
                     boolean result = nacosClient.addListener(key, group, listenerNacos);
                     if (!result) {
-                        LOGGER.warning(String.format(Locale.ROOT,
-                                "Nacos add listener failed group is [%s] and key is [%s]. ", group,
-                                key));
+                        LOGGER.log(Level.WARNING, "Nacos add listener failed group is {0} and key is {1}. ",
+                                new String[]{group, key});
                         break;
                     }
                 }
@@ -504,7 +504,7 @@ public class NacosDynamicConfigService extends DynamicConfigService {
                 result = EntityUtils.toString(entity);
             }
         } catch (IOException e) {
-            LOGGER.warning("Nacos http request exception.");
+            LOGGER.log(Level.WARNING,"Nacos http request exception.");
         } finally {
             try {
                 if (response != null) {
@@ -514,7 +514,7 @@ public class NacosDynamicConfigService extends DynamicConfigService {
                     httpClient.close();
                 }
             } catch (IOException e) {
-                LOGGER.warning("Nacos http close exception.");
+                LOGGER.log(Level.WARNING, "Nacos http close exception.");
             }
         }
         return result;
@@ -544,7 +544,7 @@ public class NacosDynamicConfigService extends DynamicConfigService {
         if (pattern.matcher(group).matches()) {
             return true;
         }
-        LOGGER.warning("Nacos group naming error");
+        LOGGER.log(Level.WARNING, "Nacos group naming error");
         return false;
     }
 
