@@ -55,6 +55,7 @@ import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -237,12 +238,11 @@ public class NacosDynamicConfigService extends DynamicConfigService {
         }
         String alreadyCheckGroup = reBuildGroup(group);
         List<NacosListener> listenerList = getListener(key, alreadyCheckGroup, TYPE_KEY);
-        boolean result = true;
         for (NacosListener nacosListener : listenerList) {
-            result &= nacosClient.removeListener(key, alreadyCheckGroup, nacosListener.getKeyListener().get(key));
+            nacosClient.removeListener(key, alreadyCheckGroup, nacosListener.getKeyListener().get(key));
             listeners.remove(nacosListener);
         }
-        return result;
+        return true;
     }
 
     @Override
@@ -271,16 +271,15 @@ public class NacosDynamicConfigService extends DynamicConfigService {
         }
         String alreadyCheckGroup = reBuildGroup(group);
         List<NacosListener> listenerList = getGroupListener(alreadyCheckGroup);
-        boolean result = true;
         for (NacosListener nacosListener : listenerList) {
             for (Map.Entry<String, Listener> entry : nacosListener.getKeyListener().entrySet()) {
                 String key = entry.getKey();
                 Listener listener = entry.getValue();
-                result &= nacosClient.removeListener(key, alreadyCheckGroup, listener);
+                nacosClient.removeListener(key, alreadyCheckGroup, listener);
             }
             listeners.remove(nacosListener);
         }
-        return result;
+        return true;
     }
 
     @Override
@@ -322,9 +321,11 @@ public class NacosDynamicConfigService extends DynamicConfigService {
      */
     private Listener instantiateListener(String key, String alreadyCheckGroup, DynamicConfigListener listener) {
         return new Listener() {
+            private final Executor defaultExecutor = Executors.newSingleThreadExecutor();
+
             @Override
             public Executor getExecutor() {
-                return Runnable::run;
+                return defaultExecutor;
             }
 
             @Override
@@ -445,27 +446,11 @@ public class NacosDynamicConfigService extends DynamicConfigService {
     private String getToken() {
         if ((System.currentTimeMillis() - lastRefreshTime) >= TimeUnit.SECONDS
                 .toMillis(tokenTtl - tokenRefreshWindow)) {
-            final StringBuilder requestUrl = new StringBuilder().append(HTTP_PROTOCOL);
-            requestUrl.append(CONFIG.getServerAddress())
-                    .append("/nacos/v1/auth/users/login?")
-                    .append("&username=")
-                    .append(AesUtil.decrypt(CONFIG.getPrivateKey(), CONFIG.getUserName()).orElse(""))
-                    .append("&password=")
-                    .append(AesUtil.decrypt(CONFIG.getPrivateKey(), CONFIG.getPassword()).orElse(""));
-            final String httpResult = doRequest(requestUrl.toString(), POST_TYPE);
-            JSONObject jsonObject = JSONObject.parseObject(httpResult);
-            lastToken = jsonObject.getString(KEY_ACCESS_TOKEN);
-            tokenTtl = jsonObject.getLong(KEY_TOKEN_TTL);
-
-            /*
-
             HttpLoginProcessor httpLoginProcessor = new HttpLoginProcessor(
                     NamingHttpClientManager.getInstance().getNacosRestTemplate());
             LoginIdentityContext loginIdentityContext = httpLoginProcessor.getResponse(getProperties());
             lastToken = loginIdentityContext.getParameter(KEY_ACCESS_TOKEN);
             tokenTtl = Long.parseLong(loginIdentityContext.getParameter(KEY_TOKEN_TTL));
-
-             */
 
             lastRefreshTime = System.currentTimeMillis();
         }
@@ -476,10 +461,9 @@ public class NacosDynamicConfigService extends DynamicConfigService {
      * http的get请求
      *
      * @param url http请求url
-     * @param requestType http请求标识符
      * @return 响应体body
      */
-    private String doRequest(String url, String requestType) {
+    private String doGet(String url) {
         CloseableHttpClient httpClient = null;
         CloseableHttpResponse response = null;
         String result = "";
@@ -490,21 +474,13 @@ public class NacosDynamicConfigService extends DynamicConfigService {
                     .setConnectionRequestTimeout(CONFIG.getTimeoutValue()) // 请求超时时间
                     .setSocketTimeout(CONFIG.getTimeoutValue()) // 数据读取超时时间
                     .build();
-            if (requestType.equals(GET_TYPE)) {
-                HttpGet httpGet = new HttpGet(url);
-                httpGet.setConfig(requestConfig);
-                response = httpClient.execute(httpGet);
-                HttpEntity entity = response.getEntity();
-                result = EntityUtils.toString(entity);
-            } else {
-                HttpPost httpPost = new HttpPost(url);
-                httpPost.setConfig(requestConfig);
-                response = httpClient.execute(httpPost);
-                HttpEntity entity = response.getEntity();
-                result = EntityUtils.toString(entity);
-            }
+            HttpGet httpGet = new HttpGet(url);
+            httpGet.setConfig(requestConfig);
+            response = httpClient.execute(httpGet);
+            HttpEntity entity = response.getEntity();
+            result = EntityUtils.toString(entity);
         } catch (IOException e) {
-            LOGGER.log(Level.WARNING,"Nacos http request exception.");
+            LOGGER.log(Level.WARNING, "Nacos http request exception.");
         } finally {
             try {
                 if (response != null) {
@@ -529,9 +505,9 @@ public class NacosDynamicConfigService extends DynamicConfigService {
         Properties properties = new Properties();
         properties.setProperty(KEY_SERVER, CONFIG.getServerAddress());
         properties.setProperty(PropertyKeyConst.USERNAME,
-                String.valueOf(AesUtil.decrypt(CONFIG.getPrivateKey(), CONFIG.getUserName())));
+                AesUtil.decrypt(CONFIG.getPrivateKey(), CONFIG.getUserName()).orElse(""));
         properties.setProperty(PropertyKeyConst.PASSWORD,
-                String.valueOf(AesUtil.decrypt(CONFIG.getPrivateKey(), CONFIG.getPassword())));
+                AesUtil.decrypt(CONFIG.getPrivateKey(), CONFIG.getPassword()).orElse(""));
         return properties;
     }
 

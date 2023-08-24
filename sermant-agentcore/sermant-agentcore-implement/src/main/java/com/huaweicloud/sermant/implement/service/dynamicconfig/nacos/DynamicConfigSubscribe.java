@@ -116,6 +116,12 @@ public class DynamicConfigSubscribe implements ConfigSubscriber {
         return result;
     }
 
+    /**
+     * 打印订阅结果
+     *
+     * @param group 订阅组
+     * @param groupResult 当前订阅者订阅结果
+     */
     private void printSubscribeMsg(String group, boolean groupResult) {
         if (pluginName != null) {
             if (groupResult) {
@@ -134,6 +140,9 @@ public class DynamicConfigSubscribe implements ConfigSubscriber {
         }
     }
 
+    /**
+     * 构建不同类型的组
+     */
     private void buildGroupSubscribers() {
         buildAppRequest();
         buildServiceRequest();
