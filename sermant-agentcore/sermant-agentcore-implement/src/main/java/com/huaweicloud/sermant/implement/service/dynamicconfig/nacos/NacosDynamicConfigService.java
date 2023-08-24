@@ -38,7 +38,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -48,12 +47,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -90,16 +86,6 @@ public class NacosDynamicConfigService extends DynamicConfigService {
      * http的协议头
      */
     private static final String HTTP_PROTOCOL = "http://";
-
-    /**
-     * http的POST请求标识符
-     */
-    private static final String POST_TYPE = "POST";
-
-    /**
-     * http的GET请求标识符
-     */
-    private static final String GET_TYPE = "GET";
 
     /**
      * http请求获取所有配置项相关参数名
