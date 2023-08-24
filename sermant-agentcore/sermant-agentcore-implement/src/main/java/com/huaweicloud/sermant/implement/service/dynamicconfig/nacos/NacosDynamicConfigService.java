@@ -395,7 +395,7 @@ public class NacosDynamicConfigService extends DynamicConfigService {
      * @return group和其所有的keys组成的Map
      */
     private Map<String, List<String>> getGroupKeys() {
-        final String httpResult = doRequest(buildUrl(), GET_TYPE);
+        final String httpResult = doGet(buildUrl());
         if ("".equals(httpResult)) {
             return new HashMap<>();
         }
