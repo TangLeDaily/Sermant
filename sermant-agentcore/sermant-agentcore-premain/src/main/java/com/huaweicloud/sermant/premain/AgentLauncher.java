@@ -99,7 +99,7 @@ public class AgentLauncher {
             LOGGER.log(Level.INFO, "Load sermant done， artifact is: " + artifact);
             SermantManager.updateSermantStatus(artifact, true);
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Loading sermant agent failed.", e);
+            LOGGER.log(Level.SEVERE, "Loading sermant agent failed. msg is"+e.getMessage());
         }
     }
 

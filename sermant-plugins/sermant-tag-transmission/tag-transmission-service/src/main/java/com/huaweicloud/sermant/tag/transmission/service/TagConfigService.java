@@ -36,7 +36,7 @@ public class TagConfigService implements PluginService {
 
     private static final String DYNAMIC_CONFIG_KEY = "tag-config";
 
-    private static final String DYNAMIC_CONFIG_GROUP = "sermant/tag-transmission-plugin";
+    private static final String DYNAMIC_CONFIG_GROUP = "tag-transmission-plugin";
 
     @Override
     public void start() {

@@ -28,6 +28,7 @@ import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.representer.Representer;
 
 import java.util.Locale;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -55,6 +56,7 @@ public class TagConfigListener implements DynamicConfigListener {
 
     @Override
     public void process(DynamicConfigEvent event) {
+        LOGGER.log(Level.INFO, "event"+event.getKey()+" / "+event.getGroup()+" /:"+event.getContent());
         if (event.getEventType() == DynamicConfigEventType.DELETE) {
             tagTransmissionConfig.setEnabled(false);
             return;

@@ -1,9 +1,7 @@
 # 默认编译场景使用，不含示例工程
 plugins:
-  - flowcontrol
   - service-router
   - service-registry
-  - loadbalancer
   - dynamic-config
   - monitor
   - springboot-registry

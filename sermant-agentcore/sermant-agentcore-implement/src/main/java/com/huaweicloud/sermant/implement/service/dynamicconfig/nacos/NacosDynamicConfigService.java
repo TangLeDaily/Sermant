@@ -143,6 +143,9 @@ public class NacosDynamicConfigService extends DynamicConfigService {
      */
     private String lastToken;
 
+    private final Executor defaultExecutor = Executors.newSingleThreadExecutor();
+
+
     /**
      * 构造函数：编译正则表达式、初始化List
      */
@@ -154,6 +157,7 @@ public class NacosDynamicConfigService extends DynamicConfigService {
 
     @Override
     public void start() {
+        System.out.println(SERVICE_META.getProject()); // TODO
         if (CONFIG.isEnableAuth()) {
             nacosClient = new NacosBufferedClient(CONFIG.getServerAddress(), CONFIG.getTimeoutValue(),
                     SERVICE_META.getProject(), CONFIG.getUserName(), CONFIG.getPassword());
@@ -203,6 +207,7 @@ public class NacosDynamicConfigService extends DynamicConfigService {
 
     @Override
     public boolean doAddConfigListener(String key, String group, DynamicConfigListener listener) {
+
         if (!checkGroupName(group)) {
             return false;
         }
@@ -213,6 +218,10 @@ public class NacosDynamicConfigService extends DynamicConfigService {
             Map<String, Listener> mp = new HashMap<>();
             mp.put(key, listenerNacos);
             listeners.add(new NacosListener(TYPE_KEY, alreadyCheckGroup, mp, listener));
+        }
+        LOGGER.log(Level.SEVERE, "addListener: key: "+key+" ,group: "+group+" result:"+result); //TODO
+        for (NacosListener nacosListener:listeners){
+            LOGGER.log(Level.SEVERE, nacosListener.getGroup()); //TODO
         }
         return result;
     }
@@ -274,7 +283,8 @@ public class NacosDynamicConfigService extends DynamicConfigService {
             return Collections.emptyList();
         }
         String alreadyCheckGroup = reBuildGroup(group);
-        return getGroupKeys().get(alreadyCheckGroup);
+        List<String> resultList = getGroupKeys().get(alreadyCheckGroup);
+        return CollectionUtils.isEmpty(resultList) ? Collections.emptyList() : resultList;
     }
 
     /**
@@ -307,15 +317,17 @@ public class NacosDynamicConfigService extends DynamicConfigService {
      */
     private Listener instantiateListener(String key, String alreadyCheckGroup, DynamicConfigListener listener) {
         return new Listener() {
-            private final Executor defaultExecutor = Executors.newSingleThreadExecutor();
 
             @Override
             public Executor getExecutor() {
-                return defaultExecutor;
+                System.out.println("getExecutor");
+                return Runnable::run;
             }
 
             @Override
             public void receiveConfigInfo(String content) {
+                System.out.println("get the config, key: "+key+" group:"+alreadyCheckGroup+" content:"+content);
+                LOGGER.log(Level.SEVERE, "get the config, key: "+key+" group:"+alreadyCheckGroup+" content:"+content); //TODO
                 listener.process(DynamicConfigEvent.modifyEvent(key, alreadyCheckGroup, content));
             }
         };
@@ -506,7 +518,7 @@ public class NacosDynamicConfigService extends DynamicConfigService {
         if (pattern.matcher(group).matches()) {
             return true;
         }
-        LOGGER.log(Level.WARNING, "Nacos group naming error");
+        LOGGER.log(Level.WARNING, "Nacos group naming error, group name: {0}", group);
         return false;
     }
 
