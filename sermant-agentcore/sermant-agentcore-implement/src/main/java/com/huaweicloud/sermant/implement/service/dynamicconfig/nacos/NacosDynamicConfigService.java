@@ -321,7 +321,7 @@ public class NacosDynamicConfigService extends DynamicConfigService {
             @Override
             public Executor getExecutor() {
                 System.out.println("getExecutor");
-                return Runnable::run;
+                return null;
             }
 
             @Override

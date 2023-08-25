@@ -34,16 +34,27 @@ import java.util.logging.Logger;
 public class TagConfigService implements PluginService {
     private static final Logger LOGGER = LoggerFactory.getLogger();
 
-    private static final String DYNAMIC_CONFIG_KEY = "tag-config";
+    private static final String DYNAMIC_CONFIG_KEY = "tagAconfig";
 
-    private static final String DYNAMIC_CONFIG_GROUP = "tag-transmission-plugin";
+    private static final String DYNAMIC_CONFIG_GROUP = "tagAtransmissionAplugin";
 
     @Override
     public void start() {
         DynamicConfigService dynamicConfigService = ServiceManager.getService(DynamicConfigService.class);
         dynamicConfigService.addConfigListener(DYNAMIC_CONFIG_KEY, DYNAMIC_CONFIG_GROUP,
                 new TagConfigListener(), true);
+        try{
+            Thread.sleep(1000);
+        }catch (Exception e){
+            System.out.println("eee");
+        }
         LOGGER.info(String.format(Locale.ROOT,
                 "Success to subscribe %s/%s", DYNAMIC_CONFIG_GROUP, DYNAMIC_CONFIG_KEY));
+        try{
+            Thread.sleep(1000);
+        }catch (Exception e){
+            System.out.println("eee");
+        }
+        System.out.println("over");
     }
 }

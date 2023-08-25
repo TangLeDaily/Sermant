@@ -30,6 +30,7 @@ import com.alibaba.nacos.api.exception.NacosException;
 import java.io.Closeable;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.concurrent.Executor;
 import java.util.logging.Logger;
 
 /**
@@ -147,8 +148,27 @@ public class NacosBufferedClient implements Closeable {
      */
     public boolean addListener(String key, String group, Listener listener) {
         try {
-            System.out.println(key+"/"+group+": "+configService.getConfig(key, group, 3000L));
-            this.configService.addListener(key, group, listener);
+            // System.out.println(key+"/"+group+": "+configService.getConfig(key, group, 3000L));
+            Listener listener1 = new Listener() {
+                @Override
+                public Executor getExecutor() {
+                    return null;
+                }
+
+                @Override
+                public void receiveConfigInfo(String s) {
+                    System.out.println("true");
+                }
+            };
+            Properties properties = createProperties("127.0.0.1:8848", 300000, "testProject2");
+            ConfigService configService1 = NacosFactory.createConfigService(properties);
+            configService1.addListener("key", "group", listener1);
+            try{
+                Thread.sleep(1000);
+            }catch (Exception e){
+                System.out.println("eee");
+            }
+            System.out.println(configService1.getServerStatus());
             return true;
         } catch (NacosException | NacosInitException ignored) {
             return false;
@@ -198,7 +218,7 @@ public class NacosBufferedClient implements Closeable {
         Properties properties = new Properties();
         properties.setProperty(PropertyKeyConst.SERVER_ADDR, connectString);
         properties.setProperty(PropertyKeyConst.NAMESPACE, namespace);
-//        properties.setProperty(PropertyKeyConst.CONFIG_LONG_POLL_TIMEOUT, String.valueOf(sessionTimeout));
+        properties.setProperty(PropertyKeyConst.CONFIG_LONG_POLL_TIMEOUT, String.valueOf(sessionTimeout));
         return properties;
     }
 
@@ -250,7 +270,7 @@ public class NacosBufferedClient implements Closeable {
     private boolean connectAndRetryConnect(Properties properties) throws NacosException {
         int tryNum = 0;
         while (tryNum++ <= CONFIG.getConnectRetryTimes()) {
-            configService = NacosFactory.createConfigService(properties);
+            this.configService = NacosFactory.createConfigService(properties);
             if (KEY_CONNECTED.equals(configService.getServerStatus())) {
                 System.out.println(properties.getProperty("namespace"));
                 return true;
