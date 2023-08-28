@@ -28,6 +28,7 @@ import com.alibaba.nacos.api.config.listener.Listener;
 import com.alibaba.nacos.api.exception.NacosException;
 
 import java.io.Closeable;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -193,10 +194,14 @@ public class NacosBufferedClient implements Closeable {
     private Properties createProperties(String connectString, int sessionTimeout, String namespace, String userName,
             String password) {
         Properties properties = this.createProperties(connectString, sessionTimeout, namespace);
-        properties.setProperty(PropertyKeyConst.USERNAME,
-                String.valueOf(AesUtil.decrypt(CONFIG.getPrivateKey(), userName)));
-        properties.setProperty(PropertyKeyConst.PASSWORD,
-                String.valueOf(AesUtil.decrypt(CONFIG.getPrivateKey(), password)));
+        Optional<String> userNameOptinal = AesUtil.decrypt(CONFIG.getPrivateKey(), userName);
+        Optional<String> passWordOptinal = AesUtil.decrypt(CONFIG.getPrivateKey(), password);
+        if (!userNameOptinal.isPresent() || !passWordOptinal.isPresent()) {
+            LOGGER.log(Level.SEVERE, "Nacos username and password parsing failed");
+            return properties;
+        }
+        properties.setProperty(PropertyKeyConst.USERNAME, userNameOptinal.get());
+        properties.setProperty(PropertyKeyConst.PASSWORD, passWordOptinal.get());
         return properties;
     }
 
@@ -229,7 +234,10 @@ public class NacosBufferedClient implements Closeable {
     private boolean connect(Properties properties) throws NacosException {
         int tryNum = 0;
         while (tryNum++ <= CONFIG.getConnectRetryTimes()) {
+            ClassLoader tempClassLoader = Thread.currentThread().getContextClassLoader();
+            Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
             configService = NacosFactory.createConfigService(properties);
+            Thread.currentThread().setContextClassLoader(tempClassLoader);
             if (KEY_CONNECTED.equals(configService.getServerStatus())) {
                 return true;
             }
