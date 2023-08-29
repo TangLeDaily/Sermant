@@ -162,8 +162,8 @@ public class NacosDynamicConfigService extends DynamicConfigService {
                     SERVICE_META.getProject());
         }
         scheduledThreadPoolExecutor = new ScheduledThreadPoolExecutor(1);
-        scheduledThreadPoolExecutor.scheduleWithFixedDelay(this::updateConfigListener, UPDATE_TIME_INTERVAL,
-                UPDATE_TIME_INTERVAL,
+        scheduledThreadPoolExecutor.scheduleWithFixedDelay(this::updateConfigListener, 10000,
+                10000,
                 TimeUnit.MILLISECONDS);
     }
 
@@ -312,6 +312,7 @@ public class NacosDynamicConfigService extends DynamicConfigService {
 
             @Override
             public void receiveConfigInfo(String content) {
+                LOGGER.log(Level.INFO, "监听消息回执成功，监听组:{0},监听key:{1}，监听内容:{2}", new String[]{alreadyCheckGroup, key, content});
                 listener.process(DynamicConfigEvent.modifyEvent(key, alreadyCheckGroup, content));
             }
         };
@@ -346,7 +347,8 @@ public class NacosDynamicConfigService extends DynamicConfigService {
             String group = nacosListener.getGroup();
             List<String> truthKeys = groupKeys.getOrDefault(group, Collections.emptyList());
             if (CollectionUtils.isEmpty(truthKeys)) {
-                doRemoveGroupListener(group); // client有但nacos无，故删除组监听器
+                // client有但nacos无
+                continue;
             }
             Map<String, Listener> map = nacosListener.getKeyListener();
             Map<String, Listener> newMap = new HashMap<>(); // 更新后的新监听器Map
@@ -354,10 +356,7 @@ public class NacosDynamicConfigService extends DynamicConfigService {
             // 遍历nacos该组内所有key
             for (String key : truthKeys) {
                 Listener listenerNacos;
-                if (map.containsKey(key)) {
-                    listenerNacos = map.get(key); // client组监听器中包含该key,将监听器转移至新监听器Map
-                    removeMap.remove(key); // 仍在需监听范围内，排除于"预移除的监听器集合"
-                } else {
+                if (!map.containsKey(key)) {
                     listenerNacos = instantiateListener(key, group, nacosListener.getDynamicConfigListener());
                     boolean result = nacosClient.addListener(key, group, listenerNacos);
                     if (!result) {
@@ -365,13 +364,9 @@ public class NacosDynamicConfigService extends DynamicConfigService {
                                 new String[]{group, key});
                         break;
                     }
+                    map.put(key, listenerNacos);
                 }
-                newMap.put(key, listenerNacos);
             }
-            for (Map.Entry<String, Listener> entry : removeMap.entrySet()) {
-                nacosClient.removeListener(entry.getKey(), group, entry.getValue()); // 执行移除监听器操作
-            }
-            nacosListener.setKeyListener(newMap); // 替换监听器Map，完成增加和删除操作
         }
     }
 
