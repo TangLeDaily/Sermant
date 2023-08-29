@@ -312,7 +312,6 @@ public class NacosDynamicConfigService extends DynamicConfigService {
 
             @Override
             public void receiveConfigInfo(String content) {
-                LOGGER.log(Level.INFO, "监听消息回执成功，监听组:{0},监听key:{1}，监听内容:{2}", new String[]{alreadyCheckGroup, key, content});
                 listener.process(DynamicConfigEvent.modifyEvent(key, alreadyCheckGroup, content));
             }
         };
@@ -347,13 +346,9 @@ public class NacosDynamicConfigService extends DynamicConfigService {
             String group = nacosListener.getGroup();
             List<String> truthKeys = groupKeys.getOrDefault(group, Collections.emptyList());
             if (CollectionUtils.isEmpty(truthKeys)) {
-                // client有但nacos无
                 continue;
             }
             Map<String, Listener> map = nacosListener.getKeyListener();
-            Map<String, Listener> newMap = new HashMap<>(); // 更新后的新监听器Map
-            Map<String, Listener> removeMap = new HashMap<>(map); // 预移除的监听器集合
-            // 遍历nacos该组内所有key
             for (String key : truthKeys) {
                 Listener listenerNacos;
                 if (!map.containsKey(key)) {

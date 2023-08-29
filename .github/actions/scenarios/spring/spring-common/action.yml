@@ -20,8 +20,8 @@ runs:
     - name: start applications
       shell: bash
       env:
-        dynamic.config.serverAddress: 127.0.0.1:30110
-        dynamic.config.dynamicConfigType: KIE
+        dynamic.config.serverAddress: 127.0.0.1:8848
+        dynamic.config.dynamicConfigType: NACOS
         service.meta.environment: development
         sermant.springboot.registry.enableRegistry: true
       run: |

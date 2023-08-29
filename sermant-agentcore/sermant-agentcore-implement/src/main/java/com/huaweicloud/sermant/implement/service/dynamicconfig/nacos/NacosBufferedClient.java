@@ -146,7 +146,6 @@ public class NacosBufferedClient implements Closeable {
      */
     public boolean addListener(String key, String group, Listener listener) {
         try {
-            LOGGER.log(Level.INFO, "监听成功，监听组:{0},监听key:{1}", new String[]{group, key});
             this.configService.addListener(key, group, listener);
             return true;
         } catch (NacosException e) {
