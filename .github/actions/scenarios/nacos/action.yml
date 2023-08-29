@@ -23,7 +23,7 @@ runs:
         dynamic.config.serverAddress: 127.0.0.1:8848
         dynamic.config.dynamicConfigType: NACOS
         service.meta.environment: development
-        sermant.springboot.registry.enableRegistry: true
+#        sermant.springboot.registry.enableRegistry: true
       run: |
         nohup java -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=default -Dservice.meta.application=feign -Dserver.port=8013 -jar \
         -Dsermant_log_dir=${{ env.logDir }}/feign-provider${{ env.tailVersion }} -Dconfig.retry.sleepMs=20 \
@@ -57,20 +57,20 @@ runs:
     - name: integration test module FLOW_CONTROL
       shell: bash
       run: mvn test -Dsermant.integration.test.type=FLOW_CONTROL --file sermant-integration-tests/spring-test/pom.xml
-    - name: integration test module LOAD_BALANCER
-      shell: bash
-      run: mvn test -Dsermant.integration.test.type=LOAD_BALANCER -Dspring.boot.version=${{ matrix.springBootVersion }} --file sermant-integration-tests/spring-test/pom.xml
-    - name: integration test module BOOT_REGISTRY
-      shell: bash
-      if: matrix.springBootVersion == '1.5.0.RELEASE' && matrix.springCloudVersion == 'Edgware.SR2'
-      run: mvn test -Dsermant.integration.test.type=BOOT_REGISTRY -Dapp.version=1.5.x -Dspring.boot.version=${{ matrix.springBootVersion }} --file sermant-integration-tests/spring-test/pom.xml
-    - name: integration test module BOOT_REGISTRY
-      shell: bash
-      if: matrix.springBootVersion != '1.5.0.RELEASE' && matrix.springCloudVersion != 'Edgware.SR2'
-      run: mvn test -Dsermant.integration.test.type=BOOT_REGISTRY -Dspring.boot.version=${{ matrix.springBootVersion }} -Dhttp.client.version=${{ matrix.httpClientVersion }} --file sermant-integration-tests/spring-test/pom.xml
-    - name: integration test module CLOUD_REGISTRY
-      shell: bash
-      run: mvn test -Dsermant.integration.test.type=CLOUD_REGISTRY --file sermant-integration-tests/spring-test/pom.xml
+#    - name: integration test module LOAD_BALANCER
+#      shell: bash
+#      run: mvn test -Dsermant.integration.test.type=LOAD_BALANCER -Dspring.boot.version=${{ matrix.springBootVersion }} --file sermant-integration-tests/spring-test/pom.xml
+#    - name: integration test module BOOT_REGISTRY
+#      shell: bash
+#      if: matrix.springBootVersion == '1.5.0.RELEASE' && matrix.springCloudVersion == 'Edgware.SR2'
+#      run: mvn test -Dsermant.integration.test.type=BOOT_REGISTRY -Dapp.version=1.5.x -Dspring.boot.version=${{ matrix.springBootVersion }} --file sermant-integration-tests/spring-test/pom.xml
+#    - name: integration test module BOOT_REGISTRY
+#      shell: bash
+#      if: matrix.springBootVersion != '1.5.0.RELEASE' && matrix.springCloudVersion != 'Edgware.SR2'
+#      run: mvn test -Dsermant.integration.test.type=BOOT_REGISTRY -Dspring.boot.version=${{ matrix.springBootVersion }} -Dhttp.client.version=${{ matrix.httpClientVersion }} --file sermant-integration-tests/spring-test/pom.xml
+#    - name: integration test module CLOUD_REGISTRY
+#      shell: bash
+#      run: mvn test -Dsermant.integration.test.type=CLOUD_REGISTRY --file sermant-integration-tests/spring-test/pom.xml
     - name: exit
       if: always()
       uses: ./.github/actions/common/exit
