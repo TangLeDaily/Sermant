@@ -29,6 +29,18 @@ runs:
       run: |
         export ROOT_PATH=$(pwd)
         bash ./sermant-integration-tests/scripts/startCse.sh
+    - name: download nacos server
+      uses: actions/cache@v3
+      with:
+        path: nacos-server-2.1.0.tar.gz
+        key: ${{ runner.os }}-nacos-server-2.1.0
+        restore-keys: |
+          ${{ runner.os }}-nacos-server-2.1.0
+    - name: start nacos server
+      shell: bash
+      run: |
+        tar -zxf nacos-server-2.1.0.tar.gz
+        bash nacos/bin/startup.sh -m standalone
     - name: cache dependencies
       uses: actions/cache@v3
       with:

@@ -54,10 +54,10 @@ jobs:
       - name: cache nacos server
         uses: actions/cache@v3
         with:
-          path: nacos-server-2.1.0.tar.gz
-          key: ${{ runner.os }}-nacos-server-2.1.0
+          path: nacos-server-1.4.2.tar.gz
+          key: ${{ runner.os }}-nacos-server-1.4.2
           restore-keys: |
-            ${{ runner.os }}-nacos-server-2.1.0
+            ${{ runner.os }}-nacos-server-1.4.2
       - name: download nacos
         run: |
           export ROOT_PATH=$(pwd)
@@ -138,9 +138,6 @@ jobs:
           echo "javaVersion=8" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/spring
-      - name: (nacos common) test for springboot=${{ matrix.springBootVersion }} springCloudVersion=${{ matrix.springCloudVersion }}
-        if: env.enableSpringCommon == 'true'
-        uses: ./.github/actions/scenarios/nacos
       - name: (graceful) test for springboot=${{ matrix.springBootVersion }} springCloudVersion=${{ matrix.springCloudVersion }}
         if: env.enableGraceful == 'true'
         uses: ./.github/actions/scenarios/spring/graceful
