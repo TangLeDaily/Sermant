@@ -1,0 +1,10 @@
+com.huaweicloud.agentcore.tests.plugin.declarer.TestExecuteContextDeclarer
+com.huaweicloud.agentcore.tests.plugin.declarer.TestAnnotationDeclarer
+com.huaweicloud.agentcore.tests.plugin.declarer.TestAnnotationsDeclarer
+com.huaweicloud.agentcore.tests.plugin.declarer.TestSuperTypeDeclarer
+com.huaweicloud.agentcore.tests.plugin.declarer.TestSuperTypesDeclarer
+com.huaweicloud.agentcore.tests.plugin.declarer.TestInfixDeclarer
+com.huaweicloud.agentcore.tests.plugin.declarer.TestPrefixDeclarer
+com.huaweicloud.agentcore.tests.plugin.declarer.TestSuffixDeclarer
+com.huaweicloud.agentcore.tests.plugin.declarer.TestMethodMatcherDeclarer
+com.huaweicloud.agentcore.tests.plugin.declarer.TestBootstrapDeclarer
