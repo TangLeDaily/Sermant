@@ -1,9 +1,10 @@
 # 默认编译场景使用，不含示例工程
 plugins:
+  - agentcore-test-plugin-copy
   - flowcontrol
   - service-router
   - service-registry
-  - loadbalancer
+#  - loadbalancer
   - dynamic-config
   - monitor
   - springboot-registry

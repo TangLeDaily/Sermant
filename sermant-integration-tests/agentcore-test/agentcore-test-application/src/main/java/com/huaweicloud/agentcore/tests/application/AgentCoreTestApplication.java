@@ -17,18 +17,21 @@ import java.lang.reflect.Field;
 public class AgentCoreTestApplication {
     private static final Logger LOGGER = LoggerFactory.getLogger(AgentCoreTestApplication.class);
 
-    public static void main(String[] args) throws IllegalAccessException {
+    public static void main(String[] args) throws IllegalAccessException, InterruptedException {
         // 测试类匹配
-        ClassMatchersTest classMatchersTest = new ClassMatchersTest();
-        classMatchersTest.testClassMatchers();
-
-        // 测试方法匹配
-        MethodMatchersTest methodMatchersTest = new MethodMatchersTest(false);
-        methodMatchersTest.testMethodMatchers();
-
-        // 测试增强能力
-        EnhancementTest enhancementTest = new EnhancementTest();
-        enhancementTest.testEnhancement();
+//        ClassMatchersTest classMatchersTest = new ClassMatchersTest();
+//        classMatchersTest.testClassMatchers();
+//
+//        // 测试方法匹配
+//        MethodMatchersTest methodMatchersTest = new MethodMatchersTest(false);
+//        methodMatchersTest.testMethodMatchers();
+//
+//        // 测试增强能力
+//        EnhancementTest enhancementTest = new EnhancementTest();
+//        enhancementTest.testEnhancement();
+        Thread.sleep(3000);
+        DynamicConfigTest dynamicConfigTest = new DynamicConfigTest();
+        dynamicConfigTest.testDynamicConfig();
 
         printResult();
     }

@@ -1,9 +1,6 @@
 package com.huaweicloud.agentcore.tests.plugin.interceptor;
 
 import com.huaweicloud.sermant.core.plugin.agent.entity.ExecuteContext;
-import com.huaweicloud.sermant.core.plugin.agent.interceptor.AbstractInterceptor;
-import com.huaweicloud.sermant.core.service.ServiceManager;
-import com.huaweicloud.sermant.core.service.dynamicconfig.DynamicConfigService;
 import com.huaweicloud.sermant.core.service.dynamicconfig.common.DynamicConfigEvent;
 import com.huaweicloud.sermant.core.service.dynamicconfig.common.DynamicConfigListener;
 
@@ -13,13 +10,12 @@ import com.huaweicloud.sermant.core.service.dynamicconfig.common.DynamicConfigLi
  * @author tangle
  * @since 2023-8-30
  */
-public class AddConfigListenerInterceptor extends BaseInterceptor {
+public class AddGroupConfigListenerInterceptor extends BaseInterceptor {
     @Override
     public ExecuteContext before(ExecuteContext context) {
-        String key = (String) context.getArguments()[1];
-        String group = (String) context.getArguments()[2];
-        context.getArguments()[0] = dynamicConfigService.doAddConfigListener(key, group, new DynamicConfigListener() {
-            final String listenerGroup = (String) context.getArguments()[3];
+        String group = (String) context.getArguments()[1];
+        context.getArguments()[0] = dynamicConfigService.doAddGroupListener(group, new DynamicConfigListener() {
+            final String listenerGroup = (String) context.getArguments()[2];
 
             @Override
             public void process(DynamicConfigEvent event) {

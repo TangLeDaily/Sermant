@@ -13,29 +13,12 @@ import com.huaweicloud.sermant.core.service.dynamicconfig.common.DynamicConfigLi
  * @author tangle
  * @since 2023-8-30
  */
-public class AddConfigListenerInterceptor extends BaseInterceptor {
+public class RemoveConfigListenerInterceptor extends BaseInterceptor {
     @Override
     public ExecuteContext before(ExecuteContext context) {
         String key = (String) context.getArguments()[1];
         String group = (String) context.getArguments()[2];
-        context.getArguments()[0] = dynamicConfigService.doAddConfigListener(key, group, new DynamicConfigListener() {
-            final String listenerGroup = (String) context.getArguments()[3];
-
-            @Override
-            public void process(DynamicConfigEvent event) {
-                // 发布一个配置到nacos，异步获取监听结果
-                dynamicConfigService.doPublishConfig(buildKey(event.getKey(),event.getGroup()), listenerGroup,
-                        buildContent(event.getContent()));
-            }
-
-            public String buildKey(String orinKey, String orinGroup) {
-                return orinKey + "-" + orinGroup;
-            }
-
-            public String buildContent(String orinContent) {
-                return "Success listener the config modify: " + orinContent;
-            }
-        });
+        context.getArguments()[0] = dynamicConfigService.doRemoveConfigListener(key, group);
         return context;
     }
 

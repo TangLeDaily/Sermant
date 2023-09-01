@@ -11,15 +11,13 @@ import com.huaweicloud.sermant.core.service.dynamicconfig.DynamicConfigService;
  * @author tangle
  * @since 2023-8-30
  */
-public class GetConfigInterceptor extends AbstractInterceptor {
-    DynamicConfigService dynamicConfigService = ServiceManager.getService(DynamicConfigService.class);
-
+public class GetConfigInterceptor extends BaseInterceptor {
     @Override
     public ExecuteContext before(ExecuteContext context) {
         String key = (String) context.getArguments()[1];
         String group = (String) context.getArguments()[2];
         String predictContent = (String) context.getArguments()[3];
-        String content = dynamicConfigService.getConfig(key, group);
+        String content = dynamicConfigService.doGetConfig(key, group).orElse("");
         context.getArguments()[0] = predictContent.equals(content);
         return context;
     }

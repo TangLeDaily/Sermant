@@ -102,4 +102,22 @@ public class TestResults {
     public static final TestCase MODIFY_RESULT = new TestCase("Test modify the result of method.");
 
     public static final TestCase SKIP_METHOD = new TestCase("Test skip the method.");
+
+    /**
+     * Start:Test Dynamic Config.
+     */
+    public static final TestCase DYNAMIC_PUBLISH_CONFIG = new TestCase("Test publish dynamic config.");
+
+    public static final TestCase DYNAMIC_REMOVE_CONFIG = new TestCase("Test remove dynamic config.");
+
+    public static final TestCase DYNAMIC_ADD_CONFIG_LISTENER = new TestCase("Test add dynamic config listener.");
+
+    public static final TestCase DYNAMIC_REMOVE_CONFIG_LISTENER = new TestCase("Test remove dynamic config listener.");
+
+    public static final TestCase DYNAMIC_ADD_GROUP_CONFIG_LISTENER = new TestCase("Test add group dynamic config "
+            + "listener.");
+
+    public static final TestCase DYNAMIC_REMOVE_GROUP_CONFIG_LISTENER = new TestCase("Test remove group dynamic "
+            + "config listener.");
+
 }

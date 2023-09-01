@@ -11,9 +11,7 @@ import com.huaweicloud.sermant.core.service.dynamicconfig.DynamicConfigService;
  * @author tangle
  * @since 2023-8-30
  */
-public class RemoveConfigInterceptor extends AbstractInterceptor {
-    DynamicConfigService dynamicConfigService = ServiceManager.getService(DynamicConfigService.class);
-
+public class RemoveConfigInterceptor extends BaseInterceptor {
     @Override
     public ExecuteContext before(ExecuteContext context) {
         String key = (String) context.getArguments()[1];

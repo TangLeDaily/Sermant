@@ -1,0 +1,46 @@
+name: "Agent-core Common Test"
+description: "Auto test for spring common, include nacos dynamic config"
+runs:
+  using: "composite"
+  steps:
+    - name: entry
+      uses: ./.github/actions/common/entry
+      with:
+        log-dir: ./logs/spring-common
+    - name: 1.5.x config
+      if: matrix.springBootVersion == '1.5.0.RELEASE' && matrix.springCloudVersion == 'Edgware.SR2'
+      shell: bash
+      run: |
+        echo "tailVersion=-1.5.x" >> $GITHUB_ENV
+#    - name: package common demos
+#      shell: bash
+#      run: |
+#        sed -i 's|<version>${{ env.projectSpringBootVersion }}</version>|<version>${{ matrix.springBootVersion }}</version>|g' sermant-integration-tests/spring-test/pom.xml
+#        mvn clean package -Dspring.cloud.version=2.2.9.RELEASE -Dspring.boot.version=2.3.12.RELEASE  --file
+#        sermant-integration-tests/spring-test/pom.xml
+    - name: start applications
+      shell: bash
+      env:
+        dynamic.config.serverAddress: 127.0.0.1:8848
+        dynamic.config.dynamicConfigType: NACOS
+        service.meta.project: TestAgentCore
+      run: |
+        nohup java -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=default 
+        -Dservice.meta.application=agentcore -Dserver.port=8959 -jar \
+        -Dsermant_log_dir=${{ env.logDir }}/feign-provider${{ env.tailVersion }} \
+        sermant-integration-tests/spring-test/spring-common-demos/spring-common-feign${{ env.tailVersion }}/feign-provider${{ env.tailVersion }}/target/feign-provider${{ env.tailVersion }}.jar > ${{ env.logDir }}/feign-provider.log 2>&1 &
+    - name: exit
+      if: always()
+      uses: ./.github/actions/common/exit
+      with:
+        processor-keyword: feign|rest
+    - name: if failure then upload error log
+      uses: actions/upload-artifact@v3
+      if: ${{ failure() || cancelled() }}
+      with:
+        name: (${{ github.job }})-spring-common-(${{ matrix.springBootVersion }}-${{ matrix.springCloudVersion }})-logs
+        path: |
+          ./*.log
+          ./logs/**
+        if-no-files-found: warn
+        retention-days: 2

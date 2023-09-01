@@ -8,3 +8,4 @@ com.huaweicloud.agentcore.tests.plugin.declarer.TestPrefixDeclarer
 com.huaweicloud.agentcore.tests.plugin.declarer.TestSuffixDeclarer
 com.huaweicloud.agentcore.tests.plugin.declarer.TestMethodMatcherDeclarer
 com.huaweicloud.agentcore.tests.plugin.declarer.TestBootstrapDeclarer
+com.huaweicloud.agentcore.tests.plugin.declarer.TestDynamicConfigDeclarer
