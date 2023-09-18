@@ -1,0 +1,9 @@
+router.plugin:
+  # 是否适配注册插件
+  enabled-registry-plugin-adaptation: false
+  # 是否使用请求信息做路由
+  use-request-router: false
+  # 使用请求信息做路由时的tags
+  request-tags: []
+  # 需要解析的请求头的tag
+  parse-header-tag: ''

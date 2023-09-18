@@ -1,0 +1,21 @@
+2023-09-18 17:22:30.609 [INFO ] com.huaweicloud.sermant.backend.Backend - Starting Backend using Java 1.8.0_371 on DESKTOP-2BE51U1 with PID 19636 (D:\Project\HuaWei\DEV\Sermant\sermant-agent-1.0.0\server\sermant\sermant-backend-1.0.0.jar started by TLPC in D:\Project\HuaWei\DEV\Sermant\sermant-agent-1.0.0\server\sermant)
+2023-09-18 17:22:30.612 [INFO ] com.huaweicloud.sermant.backend.Backend - No active profile set, falling back to default profiles: default
+2023-09-18 17:22:32.054 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8900 (http)
+2023-09-18 17:22:32.066 [INFO ] org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8900"]
+2023-09-18 17:22:32.067 [INFO ] org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2023-09-18 17:22:32.068 [INFO ] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.55]
+2023-09-18 17:22:32.069 [WARN ] org.apache.catalina.core.AprLifecycleListener - This listener must only be nested within Server elements, but is in [TomcatEmbeddedContext].
+2023-09-18 17:22:32.069 [INFO ] org.apache.catalina.core.AprLifecycleListener - Loaded Apache Tomcat Native library [1.2.37] using APR version [1.7.4].
+2023-09-18 17:22:32.070 [INFO ] org.apache.catalina.core.AprLifecycleListener - APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true], UDS [true].
+2023-09-18 17:22:32.070 [INFO ] org.apache.catalina.core.AprLifecycleListener - APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+2023-09-18 17:22:32.073 [INFO ] org.apache.catalina.core.AprLifecycleListener - OpenSSL successfully initialized [OpenSSL 1.1.1u  30 May 2023]
+2023-09-18 17:22:32.155 [INFO ] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-09-18 17:22:32.155 [INFO ] org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1487 ms
+2023-09-18 17:22:32.355 [INFO ] com.huaweicloud.sermant.backend.server.NettyServer - Start netty server...
+2023-09-18 17:22:33.398 [INFO ] com.huaweicloud.sermant.backend.server.NettyServer - Netty server started, port is 6888
+2023-09-18 17:22:33.804 [INFO ] org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8900"]
+2023-09-18 17:22:33.815 [INFO ] org.springframework.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8900 (http) with context path ''
+2023-09-18 17:22:33.825 [INFO ] com.huaweicloud.sermant.backend.Backend - Started Backend in 3.578 seconds (JVM running for 4.14)
+2023-09-18 17:22:39.013 [INFO ] org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-09-18 17:22:39.014 [INFO ] org.springframework.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2023-09-18 17:22:39.015 [INFO ] org.springframework.web.servlet.DispatcherServlet - Completed initialization in 1 ms
