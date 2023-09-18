@@ -17,6 +17,7 @@
 package com.huaweicloud.agentcore.test.application.controller;
 
 import com.huaweicloud.agentcore.test.application.results.DynamicConfigResults;
+import com.huaweicloud.agentcore.test.application.tests.dynamic.DynamicTest;
 import com.huaweicloud.agentcore.test.application.tests.dynamicconfig.DynamicConfigTest;
 
 import com.alibaba.fastjson.JSONObject;
@@ -58,6 +59,12 @@ public class TestController {
         }
         JSONObject jsonObject = new JSONObject(resultMap);
         return jsonObject.toJSONString();
+    }
+
+    public String testDynamic() {
+        DynamicTest dynamicTest = new DynamicTest();
+        dynamicTest.testReadDynamicPluginDir();
+        return "OK";
     }
 
     private String buildExceptionKey(Exception e) {

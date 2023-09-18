@@ -46,6 +46,8 @@ public class AgentCoreTestApplication {
 
     private static final String REQUEST_PATH_DYNAMIC_CONFIG = "/testDynamicConfig";
 
+    private static final String REQUEST_PATH_DYNAMIC = "/testDynamic";
+
     /**
      * 启动main方法
      *
@@ -58,6 +60,7 @@ public class AgentCoreTestApplication {
         // 添加URL路由
         server.createContext(REQUEST_PATH_PING, new ControllerHandler());
         server.createContext(REQUEST_PATH_DYNAMIC_CONFIG, new ControllerHandler());
+        server.createContext(REQUEST_PATH_DYNAMIC, new ControllerHandler());
 
         // 启动服务器
         server.start();
@@ -103,6 +106,8 @@ public class AgentCoreTestApplication {
                     return testController.ping();
                 case REQUEST_PATH_DYNAMIC_CONFIG:
                     return testController.testDynamicConfig();
+                case REQUEST_PATH_DYNAMIC:
+                    return testController.testDynamic();
                 default:
                     return REQUEST_URL_NOT_FOUND;
             }
