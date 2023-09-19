@@ -17,11 +17,15 @@
 package com.huaweicloud.agentcore.test.application.controller;
 
 import com.huaweicloud.agentcore.test.application.results.DynamicConfigResults;
+import com.huaweicloud.agentcore.test.application.results.DynamicResults;
 import com.huaweicloud.agentcore.test.application.tests.dynamicconfig.DynamicConfigTest;
+import com.huaweicloud.agentcore.test.application.tests.dynamic.DynamicTest;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -59,6 +63,52 @@ public class TestController {
         JSONObject jsonObject = new JSONObject(resultMap);
         return jsonObject.toJSONString();
     }
+
+    public String testInstallPlugin() {
+        Map<String, Object> resultMap = new HashMap<>();
+        DynamicTest dynamicTest = new DynamicTest();
+        dynamicTest.testInstallPlugin();
+        resultMap.put(DynamicResults.DYNAMIC_INSTALL_REPEAT_ENHANCE.name(),
+                DynamicResults.DYNAMIC_INSTALL_REPEAT_ENHANCE.getResult());
+        JSONObject jsonObject = new JSONObject(resultMap);
+        return jsonObject.toJSONString();
+    }
+
+    public String testUninstallPlugin() {
+        Map<String, Object> resultMap = new HashMap<>();
+        DynamicTest dynamicTest = new DynamicTest();
+        dynamicTest.testUninstallPlugin();
+        resultMap.put(DynamicResults.DYNAMIC_UNINSTALL_INTERCEPTOR_FAIL.name(),
+                DynamicResults.DYNAMIC_UNINSTALL_INTERCEPTOR_FAIL.getResult());
+        resultMap.put(DynamicResults.DYNAMIC_UNINSTALL_REPEAT_ENHANCE.name(),
+                DynamicResults.DYNAMIC_UNINSTALL_REPEAT_ENHANCE.getResult());
+        //        resultMap.put(DynamicResults.DYNAMIC_UNINSTALL_SERVICE_CLOSE.name(),
+        //                DynamicResults.DYNAMIC_UNINSTALL_SERVICE_CLOSE.getResult());
+        JSONObject jsonObject = new JSONObject(resultMap);
+        return jsonObject.toJSONString();
+    }
+
+    public String testUninstallAgent() {
+        Map<String, Object> resultMap = new HashMap<>();
+        DynamicTest dynamicTest = new DynamicTest();
+        dynamicTest.testUninstallAgent();
+        resultMap.put(DynamicResults.DYNAMIC_UNINSTALL_AGENT_INTERCEPTOR_FAIL.name(),
+                DynamicResults.DYNAMIC_UNINSTALL_AGENT_INTERCEPTOR_FAIL.getResult());
+        JSONObject jsonObject = new JSONObject(resultMap);
+        return jsonObject.toJSONString();
+    }
+
+    public String testReInstallAgent() {
+        Map<String, Object> resultMap = new HashMap<>();
+        DynamicTest dynamicTest = new DynamicTest();
+        dynamicTest.testReInstallAgent();
+        resultMap.put(DynamicResults.DYNAMIC_REINSTALL_AGENT_INTERCEPTOR_SUCCESS.name(),
+                DynamicResults.DYNAMIC_REINSTALL_AGENT_INTERCEPTOR_SUCCESS.getResult());
+        JSONObject jsonObject = new JSONObject(resultMap);
+        return jsonObject.toJSONString();
+    }
+
+
 
     private String buildExceptionKey(Exception e) {
         return "Unexpected exception occurs: " + e.getMessage();
