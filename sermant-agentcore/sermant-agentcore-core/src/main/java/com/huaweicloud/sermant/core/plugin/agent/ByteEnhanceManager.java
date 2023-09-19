@@ -105,7 +105,7 @@ public class ByteEnhanceManager {
         }
         plugin.getClassFileTransformer().reset(instrumentationCache, RedefinitionStrategy.RETRANSFORMATION,
                 Reiterating.INSTANCE, ForTotal.INSTANCE,
-                AgentBuilder.RedefinitionStrategy.Listener.StreamWriting.toSystemOut());
+                RedefinitionStrategy.Listener.StreamWriting.toSystemOut());
     }
 
     private static void enhanceForFramework() {

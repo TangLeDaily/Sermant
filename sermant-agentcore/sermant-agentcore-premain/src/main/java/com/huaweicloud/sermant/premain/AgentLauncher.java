@@ -83,30 +83,46 @@ public class AgentLauncher {
             final Map<String, Object> argsMap = BootArgsBuilder.build(agentArgs);
             String artifact = (String) argsMap.get(BootConstant.ARTIFACT_NAME_KEY);
 
-            // 添加核心库
-            LOGGER.info("Loading core library into SermantClassLoader.");
-            SermantClassLoader sermantClassLoader = SermantManager.createSermant(artifact, loadCoreLibUrls());
             if (!SermantManager.checkSermantStatus(artifact)) {
+                // 添加核心库
+                LOGGER.info("Loading core library into SermantClassLoader.");
+                SermantClassLoader sermantClassLoader = SermantManager.createSermant(artifact, loadCoreLibUrls());
+
                 // 当前artifact未安装，执行agent安装
                 LOGGER.log(Level.INFO, "Loading sermant agent, artifact is: " + artifact);
                 sermantClassLoader.loadClass("com.huaweicloud.sermant.core.AgentCoreEntrance")
                         .getDeclaredMethod("install", String.class, Map.class, Instrumentation.class, boolean.class)
                         .invoke(null, artifact, argsMap, instrumentation, isDynamic);
-                LOGGER.log(Level.INFO, "Load sermant done， artifact is: " + artifact);
+                LOGGER.log(Level.INFO, "Load sermant done, artifact is: " + artifact);
                 SermantManager.updateSermantStatus(artifact, true);
             } else {
                 LOGGER.log(Level.INFO, "Sermant for artifact is running, artifact is: " + artifact);
             }
-
-            // 处理启动参数中的指令
-            sermantClassLoader.loadClass("com.huaweicloud.sermant.core.command.CommandProcessor")
-                    .getDeclaredMethod("process", String.class)
-                    .invoke(null, argsMap.get("command"));
+            executeCommand(artifact, (String) argsMap.get("command"));
         } catch (InvocationTargetException invocationTargetException) {
             LOGGER.log(Level.SEVERE,
                     "Loading sermant agent failed: " + invocationTargetException.getTargetException().getMessage());
         } catch (Exception exception) {
             LOGGER.log(Level.SEVERE, "Loading sermant agent failed: " + exception.getMessage());
+        }
+    }
+
+    private static void executeCommand(String artifact, String command) {
+        // 处理启动参数中的指令
+        try {
+            SermantClassLoader sermantClassLoader = SermantManager.getSermant(artifact);
+            if (sermantClassLoader == null) {
+                LOGGER.log(Level.SEVERE,
+                        "Execute command failed, sermant has not been installed, artifact is: " + artifact);
+                return;
+            }
+            sermantClassLoader.loadClass("com.huaweicloud.sermant.core.command.CommandProcessor")
+                    .getDeclaredMethod("process", String.class).invoke(null, command);
+        } catch (InvocationTargetException invocationTargetException) {
+            LOGGER.log(Level.SEVERE,
+                    "Execute command failed: " + invocationTargetException.getTargetException().getMessage());
+        } catch (Exception exception) {
+            LOGGER.log(Level.SEVERE, "Execute command failed: " + exception.getMessage());
         }
     }
 
@@ -126,7 +142,7 @@ public class AgentLauncher {
         return list.toArray(new URL[]{});
     }
 
-    private static void loadGodLib(Instrumentation instrumentation) throws IOException {
+    private static void loadGodLib(Instrumentation instrumentation) {
         final File bootstrapDir = new File(PathDeclarer.getGodLibPath());
         if (!bootstrapDir.exists() || !bootstrapDir.isDirectory()) {
             throw new RuntimeException("God directory is not exist or is not directory.");

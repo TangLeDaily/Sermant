@@ -31,7 +31,7 @@ import java.util.logging.Logger;
  * @since 2022-03-26
  */
 public class LoggerFactory {
-    private static Logger logger = java.util.logging.Logger.getLogger("sermant");
+    private static Logger logger = Logger.getLogger("sermant");
 
     private LoggerFactory() {
     }

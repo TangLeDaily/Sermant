@@ -84,11 +84,11 @@ public abstract class AbstractTransformer implements AgentBuilder.Transformer {
      * @param classLoader 加载被增强类的类加载器
      * @return 构建器
      */
-    private DynamicType.Builder<?> enhanceMethods(DynamicType.Builder<?> builder, TypeDescription typeDesc,
+    private Builder<?> enhanceMethods(Builder<?> builder, TypeDescription typeDesc,
             ClassLoader classLoader) {
         final MethodList<InDefinedShape> declaredMethods = typeDesc.getDeclaredMethods();
-        DynamicType.Builder<?> newBuilder = builder;
-        for (MethodDescription.InDefinedShape methodDesc : declaredMethods) {
+        Builder<?> newBuilder = builder;
+        for (InDefinedShape methodDesc : declaredMethods) {
             if (methodDesc.isNative() || methodDesc.isAbstract()) {
                 continue;
             }
@@ -105,8 +105,8 @@ public abstract class AbstractTransformer implements AgentBuilder.Transformer {
      * @param classLoader 加载被增强类的类加载器
      * @return 构建器
      */
-    private DynamicType.Builder<?> enhanceMethod(DynamicType.Builder<?> builder,
-            MethodDescription.InDefinedShape methodDesc, ClassLoader classLoader) {
+    private Builder<?> enhanceMethod(Builder<?> builder,
+            InDefinedShape methodDesc, ClassLoader classLoader) {
         final List<Interceptor> interceptors = getInterceptors(methodDesc, classLoader);
         if (interceptors.isEmpty()) {
             return builder;
@@ -133,7 +133,7 @@ public abstract class AbstractTransformer implements AgentBuilder.Transformer {
      * @param classLoader 类加载器
      * @return 拦截器列表
      */
-    private List<Interceptor> getInterceptors(MethodDescription.InDefinedShape methodDesc, ClassLoader classLoader) {
+    private List<Interceptor> getInterceptors(InDefinedShape methodDesc, ClassLoader classLoader) {
         final List<Interceptor> interceptors = new ArrayList<>();
         for (InterceptDeclarer declarer : interceptDeclarers) {
             if (!declarer.getMethodMatcher().matches(methodDesc)) {
@@ -167,7 +167,7 @@ public abstract class AbstractTransformer implements AgentBuilder.Transformer {
      * @throws NoSuchMethodException 无法找到方法，正常不会报出
      * @throws NoSuchFieldException 找不到属性
      */
-    abstract DynamicType.Builder<?> resolve(DynamicType.Builder<?> builder, MethodDescription.InDefinedShape methodDesc,
+    abstract Builder<?> resolve(Builder<?> builder, InDefinedShape methodDesc,
             List<Interceptor> interceptors, Class<?> templateCls, ClassLoader classLoader)
             throws InvocationTargetException, IllegalAccessException, NoSuchMethodException, NoSuchFieldException;
 
@@ -180,7 +180,7 @@ public abstract class AbstractTransformer implements AgentBuilder.Transformer {
      * @return adviceKey
      */
     protected String getAdviceKey(Class<?> templateCls, ClassLoader classLoader,
-            MethodDescription.InDefinedShape methodDesc) {
+            InDefinedShape methodDesc) {
         return templateCls.getSimpleName() + "_" + Integer.toHexString(
                 MethodKeyCreator.getMethodDescKey(methodDesc).hashCode()) + "_" + classLoader;
     }

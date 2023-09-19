@@ -40,7 +40,7 @@ public class LoggerFactoryImpl {
      * @return logger logger for sermant
      */
     public static Logger init() {
-        Logger logger = java.util.logging.Logger.getLogger("sermant");
+        Logger logger = Logger.getLogger("sermant");
         logger.addHandler(new SermantBridgeHandler());
         logger.setUseParentHandlers(false);
         logger.setLevel(getLevel());

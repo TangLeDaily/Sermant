@@ -25,6 +25,7 @@ import com.huaweicloud.sermant.core.plugin.agent.ByteEnhanceManager;
 import com.huaweicloud.sermant.core.plugin.agent.adviser.AdviserScheduler;
 import com.huaweicloud.sermant.core.plugin.agent.interceptor.Interceptor;
 import com.huaweicloud.sermant.core.plugin.agent.template.BaseAdviseHandler;
+import com.huaweicloud.sermant.core.plugin.classloader.PluginClassLoader;
 import com.huaweicloud.sermant.core.plugin.classloader.ServiceClassLoader;
 import com.huaweicloud.sermant.core.plugin.common.PluginConstant;
 import com.huaweicloud.sermant.core.plugin.common.PluginSchemaValidator;
@@ -166,7 +167,7 @@ public class PluginManager {
                 if (!new File(pluginPath).exists()) {
                     LOGGER.log(Level.WARNING, "Plugin directory {0} does not exist, so skip initializing {1}. ",
                             new String[]{pluginPath, pluginName});
-                    return;
+                    continue;
                 }
                 doInitPlugin(
                         new Plugin(pluginName, pluginPath, isDynamic, ClassLoaderManager.createPluginClassLoader()));
@@ -349,12 +350,18 @@ public class PluginManager {
 
     private static void closePluginLoaders(Plugin plugin) {
         try {
-            plugin.getServiceClassLoader().close();
+            ServiceClassLoader serviceClassLoader = plugin.getServiceClassLoader();
+            if (serviceClassLoader != null) {
+                serviceClassLoader.close();
+            }
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Failed to close ServiceClassLoader for plugin:{0}", plugin.getName());
         }
         try {
-            plugin.getPluginClassLoader().close();
+            PluginClassLoader pluginClassLoader = plugin.getPluginClassLoader();
+            if (pluginClassLoader != null) {
+                pluginClassLoader.close();
+            }
         } catch (IOException e) {
             LOGGER.log(Level.SEVERE, "Failed to close PluginClassLoader for plugin:{0}", plugin.getName());
         }

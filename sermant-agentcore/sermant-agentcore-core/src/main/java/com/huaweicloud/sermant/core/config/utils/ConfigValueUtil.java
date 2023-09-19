@@ -132,7 +132,7 @@ public class ConfigValueUtil {
      * <pre>
      *     1.数组的数据类型必须可被{@link #toBaseType}转换
      *     2.配置信息字符串形如：{@code value,value1,value2}
-     *     3.以数组的形式返回，意味着该配置可以被修改，建议get方法返回它的复制{@link java.util.Arrays#copyOf}
+     *     3.以数组的形式返回，意味着该配置可以被修改，建议get方法返回它的复制{@link Arrays#copyOf}
      * </pre>
      *
      * @param configStr 配置信息字符串
