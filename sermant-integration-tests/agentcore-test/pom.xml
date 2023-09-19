@@ -15,6 +15,7 @@
     <modules>
         <module>agentcore-test-plugin</module>
         <module>agentcore-test-application</module>
+        <module>dynamic-test-first-plugin</module>
     </modules>
 
     <properties>
