@@ -89,8 +89,8 @@ public class HeartbeatServiceImpl implements HeartbeatService {
 
     @Override
     public void stop() {
-        System.out.println("stop Heart");
         EXECUTOR_SERVICE.shutdownNow();
+        NettyClientFactory.stop();
         nettyClient.stop();
     }
 

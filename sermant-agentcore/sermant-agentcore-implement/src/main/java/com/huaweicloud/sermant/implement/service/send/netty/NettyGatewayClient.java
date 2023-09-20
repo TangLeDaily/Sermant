@@ -48,6 +48,7 @@ public class NettyGatewayClient implements GatewayClient {
 
     @Override
     public void stop() {
+        NettyClientFactory.stop();
         nettyClient.stop();
     }
 

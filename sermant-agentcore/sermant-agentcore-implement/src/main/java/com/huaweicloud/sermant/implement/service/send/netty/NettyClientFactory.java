@@ -69,4 +69,11 @@ public class NettyClientFactory {
         refreshClientMap(address, client);
         return client;
     }
+
+    public static void stop(){
+        for (String key : CLIENT_MAP.keySet()){
+            CLIENT_MAP.get(key).stop();
+        }
+        CLIENT_MAP.clear();
+    }
 }
