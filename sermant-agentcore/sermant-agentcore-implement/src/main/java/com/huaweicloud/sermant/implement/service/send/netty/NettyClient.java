@@ -141,6 +141,10 @@ public class NettyClient {
      */
     public void stop() {
         eventLoopGroup.shutdownGracefully();
+        executorService.shutdown();
+        channel.close();
+        queue.clear();
+        visibilityService.stop();
     }
 
     private void bind() {

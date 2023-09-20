@@ -63,6 +63,7 @@ public class FlowControlInitServiceImpl implements PluginService {
     @Override
     public void stop() {
         MatchManager.INSTANCE.getMatchedCache().release();
+        executor.shutdown();
     }
 
     /**
@@ -71,7 +72,6 @@ public class FlowControlInitServiceImpl implements PluginService {
      * @since 2022-03-22
      */
     static class FlowControlLifeCycle implements Runnable {
-
         @Override
         public void run() {
             DynamicConfigService dynamicConfigService = getDynamicConfigService();
@@ -85,11 +85,11 @@ public class FlowControlInitServiceImpl implements PluginService {
             if (pluginConfig.isUseCseRule()) {
                 // 适配cse, 开始适配cse的专用配置监听器
                 configSubscriber = new CseGroupConfigSubscriber(FlowControlServiceMeta.getInstance().getServiceName(),
-                    new RuleDynamicConfigListener(), dynamicConfigService, "FlowControl");
+                        new RuleDynamicConfigListener(), dynamicConfigService, "FlowControl");
             } else {
                 configSubscriber = new DefaultGroupConfigSubscriber(
                         FlowControlServiceMeta.getInstance().getServiceName(),
-                    new RuleDynamicConfigListener(), dynamicConfigService,
+                        new RuleDynamicConfigListener(), dynamicConfigService,
                         "FlowControl");
             }
             configSubscriber.subscribe();

@@ -62,11 +62,18 @@ public class CollectorServiceImpl implements CollectorService {
         sendMessage(OperateType.ADD.getType(), serverInfo);
     }
 
+    @Override
+    public void stop() {
+        if (client != null) {
+            client.stop();
+        }
+    }
+
     /**
      * 发送采集信息
      *
      * @param operateType 操作类型
-     * @param serverInfo  采集信息
+     * @param serverInfo 采集信息
      */
     private void sendMessage(String operateType, ServerInfo serverInfo) {
         if (client != null) {

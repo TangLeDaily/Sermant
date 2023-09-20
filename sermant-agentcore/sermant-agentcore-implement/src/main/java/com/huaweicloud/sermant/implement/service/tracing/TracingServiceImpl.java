@@ -71,6 +71,7 @@ public class TracingServiceImpl implements TracingService {
     public void stop() {
         this.isTracing = false;
         tracingSender.stop();
+        threadLocal.remove();
         LOGGER.info("TracingService stopped.");
     }
 
