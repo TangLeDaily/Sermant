@@ -31,7 +31,9 @@ import java.util.logging.Logger;
  * @since 2022-03-26
  */
 public class LoggerFactory {
-    private static Logger logger = Logger.getLogger("sermant");
+    private static Logger defaultLogger;
+
+    private static Logger sermantLogger;
 
     private LoggerFactory() {
     }
@@ -42,14 +44,37 @@ public class LoggerFactory {
      * @throws RuntimeException RuntimeException
      */
     public static void init() {
-        FrameworkClassLoader frameworkClassLoader = ClassLoaderManager.getFrameworkClassLoader();
-        try {
-            Method initMethod = frameworkClassLoader
-                    .loadClass("com.huaweicloud.sermant.implement.log.LoggerFactoryImpl").getMethod("init");
-            logger = (Logger) initMethod.invoke(null);
-        } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException
-                 | InvocationTargetException e) {
-            throw new RuntimeException(e);
+        if (sermantLogger == null) {
+            FrameworkClassLoader frameworkClassLoader = ClassLoaderManager.getFrameworkClassLoader();
+            try {
+                Method initMethod = frameworkClassLoader
+                        .loadClass("com.huaweicloud.sermant.implement.log.LoggerFactoryImpl").getMethod("init");
+                sermantLogger = (Logger) initMethod.invoke(null);
+            } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException
+                     | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    /**
+     * 初始化logback配置文件路径
+     *
+     * @param artifact 归属产品
+     * @throws RuntimeException RuntimeException
+     */
+    public static void init(String artifact) {
+        if (sermantLogger == null) {
+            FrameworkClassLoader frameworkClassLoader = ClassLoaderManager.getFrameworkClassLoader();
+            try {
+                Method initMethod = frameworkClassLoader
+                        .loadClass("com.huaweicloud.sermant.implement.log.LoggerFactoryImpl")
+                        .getMethod("init", String.class);
+                sermantLogger = (Logger) initMethod.invoke(null, artifact);
+            } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException
+                     | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -59,6 +84,14 @@ public class LoggerFactory {
      * @return jul日志
      */
     public static Logger getLogger() {
-        return logger;
+        if (sermantLogger != null) {
+            return sermantLogger;
+        }
+
+        // 日志如果重复获取将会有同样的日志重复打
+        if (defaultLogger == null) {
+            defaultLogger = Logger.getLogger("sermant");
+        }
+        return defaultLogger;
     }
 }

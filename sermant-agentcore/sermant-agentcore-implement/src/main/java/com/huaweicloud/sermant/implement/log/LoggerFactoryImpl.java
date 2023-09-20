@@ -41,6 +41,21 @@ public class LoggerFactoryImpl {
      */
     public static Logger init() {
         Logger logger = Logger.getLogger("sermant");
+        return getLogger(logger);
+    }
+
+    /**
+     * init
+     *
+     * @param artifact 归属产品
+     * @return return logger logger for sermant
+     */
+    public static Logger init(String artifact) {
+        Logger logger = Logger.getLogger("sermant." + artifact);
+        return getLogger(logger);
+    }
+
+    private static Logger getLogger(Logger logger) {
         logger.addHandler(new SermantBridgeHandler());
         logger.setUseParentHandlers(false);
         logger.setLevel(getLevel());

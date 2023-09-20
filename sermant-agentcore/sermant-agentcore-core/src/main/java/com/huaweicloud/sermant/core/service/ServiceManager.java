@@ -95,11 +95,6 @@ public class ServiceManager {
     private static final Map<String, BaseService> SERVICES = new HashMap<>();
 
     /**
-     * Agent核心服务配置
-     */
-    private static final ServiceConfig SERVICE_CONFIG = ConfigManager.getConfig(ServiceConfig.class);
-
-    /**
      * Constructor.
      */
     protected ServiceManager() {
@@ -109,10 +104,11 @@ public class ServiceManager {
      * 初始化所有服务
      */
     public static void initServices() {
+        ServiceConfig serviceConfig = ConfigManager.getConfig(ServiceConfig.class);
         ArrayList<String> startServiceArray = new ArrayList<>();
         for (final BaseService service : ServiceLoader.load(BaseService.class,
                 ClassLoaderManager.getFrameworkClassLoader())) {
-            if (SERVICE_CONFIG.checkServiceEnable(service.getClass().getName()) && loadService(service,
+            if (serviceConfig.checkServiceEnable(service.getClass().getName()) && loadService(service,
                     service.getClass(), BaseService.class)) {
                 service.start();
                 startServiceArray.add(service.getClass().getName());
