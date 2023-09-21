@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ServiceLoader;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -95,6 +96,8 @@ public class PluginConfigManager {
      */
     public static void cleanPluginConfigs(Plugin plugin) {
         for (String configName : plugin.getConfigs()) {
+            LOGGER.log(Level.INFO, "remove plugin config buffer, plugin:{0}, configName:{0}",new String[]{
+                    plugin.getName(), configName});
             PLUGIN_CONFIG_MAP.remove(configName);
         }
     }
