@@ -16,6 +16,7 @@ public class ReadDynamicPluginDirInterceptor extends AbstractInterceptor {
     @Override
     public ExecuteContext before(ExecuteContext context) {
         LOGGER.log(Level.INFO, "ReadDynamicPluginDirInterceptor entry success.");
+
         LOGGER.log(Level.INFO,
                 "ReadDynamicPluginDirConfig result is: {0}", readDynamicPluginDirConfig.isConfigSuccess());
         LOGGER.log(Level.INFO,
