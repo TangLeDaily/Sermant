@@ -100,9 +100,11 @@ public class AgentLauncher {
             }
             executeCommand(artifact, (String) argsMap.get("command"));
         } catch (InvocationTargetException invocationTargetException) {
+            invocationTargetException.printStackTrace();
             LOGGER.log(Level.SEVERE,
                     "Loading sermant agent failed: " + invocationTargetException.getTargetException().getMessage());
         } catch (Exception exception) {
+            exception.printStackTrace();
             LOGGER.log(Level.SEVERE, "Loading sermant agent failed: " + exception.getMessage());
         }
     }
