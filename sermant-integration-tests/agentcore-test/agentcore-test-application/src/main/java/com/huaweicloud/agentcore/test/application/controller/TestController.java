@@ -17,12 +17,20 @@
 package com.huaweicloud.agentcore.test.application.controller;
 
 import com.huaweicloud.agentcore.test.application.results.DynamicConfigResults;
-import com.huaweicloud.agentcore.test.application.tests.dynamic.DynamicTest;
+import com.huaweicloud.agentcore.test.application.results.DynamicResults;
 import com.huaweicloud.agentcore.test.application.tests.dynamicconfig.DynamicConfigTest;
+import com.huaweicloud.agentcore.test.application.tests.dynamic.DynamicTest;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sun.tools.attach.AgentInitializationException;
+import com.sun.tools.attach.AgentLoadException;
+import com.sun.tools.attach.AttachNotSupportedException;
+import com.sun.tools.attach.VirtualMachine;
+import com.sun.tools.attach.VirtualMachineDescriptor;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -61,10 +69,73 @@ public class TestController {
         return jsonObject.toJSONString();
     }
 
-    public String testDynamic() {
+    public String testInstallPlugin() {
+        Map<String, Object> resultMap = new HashMap<>();
         DynamicTest dynamicTest = new DynamicTest();
-        dynamicTest.testReadDynamicPluginDir();
-        return "OK";
+        dynamicTest.testInstallPlugin();
+        resultMap.put(DynamicResults.DYNAMIC_INSTALL_REPEAT_ENHANCE.name(),
+                DynamicResults.DYNAMIC_INSTALL_REPEAT_ENHANCE.getResult());
+        JSONObject jsonObject = new JSONObject(resultMap);
+        return jsonObject.toJSONString();
+    }
+
+    public String testUninstallPlugin() {
+        Map<String, Object> resultMap = new HashMap<>();
+        DynamicTest dynamicTest = new DynamicTest();
+        dynamicTest.testUninstallPlugin();
+        resultMap.put(DynamicResults.DYNAMIC_UNINSTALL_INTERCEPTOR_FAIL.name(),
+                DynamicResults.DYNAMIC_UNINSTALL_INTERCEPTOR_FAIL.getResult());
+        resultMap.put(DynamicResults.DYNAMIC_UNINSTALL_REPEAT_ENHANCE.name(),
+                DynamicResults.DYNAMIC_UNINSTALL_REPEAT_ENHANCE.getResult());
+//        resultMap.put(DynamicResults.DYNAMIC_UNINSTALL_SERVICE_CLOSE.name(),
+//                DynamicResults.DYNAMIC_UNINSTALL_SERVICE_CLOSE.getResult());
+        JSONObject jsonObject = new JSONObject(resultMap);
+        return jsonObject.toJSONString();
+    }
+
+    public String testUninstallAgent() {
+        Map<String, Object> resultMap = new HashMap<>();
+        DynamicTest dynamicTest = new DynamicTest();
+        dynamicTest.testUninstallAgent();
+        resultMap.put(DynamicResults.DYNAMIC_UNINSTALL_AGENT_INTERCEPTOR_FAIL.name(),
+                DynamicResults.DYNAMIC_UNINSTALL_AGENT_INTERCEPTOR_FAIL.getResult());
+        JSONObject jsonObject = new JSONObject(resultMap);
+        return jsonObject.toJSONString();
+    }
+
+    public String testReInstallAgent() {
+        Map<String, Object> resultMap = new HashMap<>();
+        DynamicTest dynamicTest = new DynamicTest();
+        dynamicTest.testReInstallAgent();
+        resultMap.put(DynamicResults.DYNAMIC_REINSTALL_AGENT_INTERCEPTOR_SUCCESS.name(),
+                DynamicResults.DYNAMIC_REINSTALL_AGENT_INTERCEPTOR_SUCCESS.getResult());
+        JSONObject jsonObject = new JSONObject(resultMap);
+        return jsonObject.toJSONString();
+    }
+
+    public String testVirtualMachine(Map<String, String> params) {
+        try {
+            List<VirtualMachineDescriptor> list = VirtualMachine.list();
+            for (VirtualMachineDescriptor vmd : list) {
+                System.out.println(vmd.displayName());
+                if (vmd.displayName().endsWith("agentcore-test-application-1.0.0-jar-with-dependencies.jar")) {
+                    System.out.println("find it");
+                    VirtualMachine virtualMachine = VirtualMachine.attach(vmd.id());
+                    String agentPath = params.get("agentPath");
+                    String command = params.get("configParam");
+                    if (command == null || command.equals("NULL")) {
+                        virtualMachine.loadAgent(agentPath);
+                    } else {
+                        String configParam = "command=" + command;
+                        virtualMachine.loadAgent(agentPath, configParam);
+                    }
+                    virtualMachine.detach();
+                }
+            }
+            return "OK";
+        } catch (AgentInitializationException | IOException | AgentLoadException | AttachNotSupportedException e) {
+            return "ERROR";
+        }
     }
 
     private String buildExceptionKey(Exception e) {
