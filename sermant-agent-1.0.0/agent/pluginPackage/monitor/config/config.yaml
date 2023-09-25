@@ -1,8 +1,0 @@
-monitor.config:
-  enableStartService: false
-  address: 127.0.0.1
-  port: 12345
-  reportType: PROMETHEUS
-  userName:
-  password:
-  key:
