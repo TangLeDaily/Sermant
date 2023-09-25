@@ -18,6 +18,7 @@ package com.huaweicloud.agentcore.test.request.dynamicconfig;
 
 import com.huaweicloud.agentcore.test.request.utils.RequestUtils;
 
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.junit.jupiter.api.Test;
 
@@ -29,10 +30,11 @@ import java.io.IOException;
  * @author tangle
  * @since 2023-09-07
  */
-@EnabledIfSystemProperty(named = "sermant.agentcore.test.type", matches = "DYNAMIC_CONFIG")
+@EnabledIfSystemProperty(named = "agentcore.test.type", matches = "DYNAMIC_CONFIG")
 public class DynamicConfigTest {
     @Test
     public void testAgentcore() throws IOException {
+        System.out.println(System.getProperty("agentcore.test.type"));
         RequestUtils.testRequest("http://127.0.0.1:8915/testDynamicConfig");
     }
 }

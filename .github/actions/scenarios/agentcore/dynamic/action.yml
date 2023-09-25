@@ -34,25 +34,25 @@ runs:
       run: java -classpath ./sermant-integration-tests/agentcore-test/:${{ env.JAVA_HOME}}/lib/tools.jar VirtualMachineApplication sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar INSTALL-PLUGINS:dynamic-test-first-plugin/dynamic-test-second-plugin
     - name: (install plugin) test install plugin
       shell: bash
-      run: mvn test -Dsermant.agentcore.test.type=INSTALL_PLUGIN --file sermant-integration-tests/agentcore-test/agentcore-integration-test/pom.xml
+      run: mvn test -Dagentcore.test.type=INSTALL_PLUGIN --file sermant-integration-tests/agentcore-test/agentcore-integration-test/pom.xml
     - name: (uninstall plugin) dynamic uninstall plugin
       shell: bash
       run: java -classpath ./sermant-integration-tests/agentcore-test/:${{ env.JAVA_HOME}}/lib/tools.jar VirtualMachineApplication sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar UNINSTALL-PLUGINS:dynamic-test-first-plugin
     - name: (uninstall plugin) test uninstall plugin
       shell: bash
-      run: mvn test -Dsermant.agentcore.test.type=UNINSTALL_PLUGIN --file sermant-integration-tests/agentcore-test/agentcore-integration-test/pom.xml
+      run: mvn test -Dagentcore.test.type=UNINSTALL_PLUGIN --file sermant-integration-tests/agentcore-test/agentcore-integration-test/pom.xml
     - name: (uninstall agent) dynamic uninstall agent
       shell: bash
       run: java -classpath ./sermant-integration-tests/agentcore-test/:${{ env.JAVA_HOME}}/lib/tools.jar VirtualMachineApplication sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar UNINSTALL-AGENT
     - name: (uninstall agent) test uninstall agent
       shell: bash
-      run: mvn test -Dsermant.agentcore.test.type=UNINSTALL_AGENT --file sermant-integration-tests/agentcore-test/agentcore-integration-test/pom.xml
+      run: mvn test -Dagentcore.test.type=UNINSTALL_AGENT --file sermant-integration-tests/agentcore-test/agentcore-integration-test/pom.xml
     - name: (reinstall agent) dynamic reinstall agent
       shell: bash
       run: java -classpath ./sermant-integration-tests/agentcore-test/:${{ env.JAVA_HOME}}/lib/tools.jar VirtualMachineApplication sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar INSTALL-PLUGINS:dynamic-test-first-plugin/dynamic-test-second-plugin
     - name: (reinstall agent) test reinstall agent
       shell: bash
-      run: mvn test -Dsermant.agentcore.test.type=REINSTALL_AGENT --file sermant-integration-tests/agentcore-test/agentcore-integration-test/pom.xml
+      run: mvn test -Dagentcore.test.type=REINSTALL_AGENT --file sermant-integration-tests/agentcore-test/agentcore-integration-test/pom.xml
 
     - name: exit
       if: always()
