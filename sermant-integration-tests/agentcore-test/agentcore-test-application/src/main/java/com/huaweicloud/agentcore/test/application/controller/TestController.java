@@ -22,11 +22,6 @@ import com.huaweicloud.agentcore.test.application.tests.dynamicconfig.DynamicCon
 import com.huaweicloud.agentcore.test.application.tests.dynamic.DynamicTest;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sun.tools.attach.AgentInitializationException;
-import com.sun.tools.attach.AgentLoadException;
-import com.sun.tools.attach.AttachNotSupportedException;
-import com.sun.tools.attach.VirtualMachine;
-import com.sun.tools.attach.VirtualMachineDescriptor;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -87,8 +82,8 @@ public class TestController {
                 DynamicResults.DYNAMIC_UNINSTALL_INTERCEPTOR_FAIL.getResult());
         resultMap.put(DynamicResults.DYNAMIC_UNINSTALL_REPEAT_ENHANCE.name(),
                 DynamicResults.DYNAMIC_UNINSTALL_REPEAT_ENHANCE.getResult());
-//        resultMap.put(DynamicResults.DYNAMIC_UNINSTALL_SERVICE_CLOSE.name(),
-//                DynamicResults.DYNAMIC_UNINSTALL_SERVICE_CLOSE.getResult());
+        //        resultMap.put(DynamicResults.DYNAMIC_UNINSTALL_SERVICE_CLOSE.name(),
+        //                DynamicResults.DYNAMIC_UNINSTALL_SERVICE_CLOSE.getResult());
         JSONObject jsonObject = new JSONObject(resultMap);
         return jsonObject.toJSONString();
     }
@@ -113,30 +108,7 @@ public class TestController {
         return jsonObject.toJSONString();
     }
 
-    public String testVirtualMachine(Map<String, String> params) {
-        try {
-            List<VirtualMachineDescriptor> list = VirtualMachine.list();
-            for (VirtualMachineDescriptor vmd : list) {
-                System.out.println(vmd.displayName());
-                if (vmd.displayName().endsWith("agentcore-test-application-1.0.0-jar-with-dependencies.jar")) {
-                    System.out.println("find it");
-                    VirtualMachine virtualMachine = VirtualMachine.attach(vmd.id());
-                    String agentPath = params.get("agentPath");
-                    String command = params.get("configParam");
-                    if (command == null || command.equals("NULL")) {
-                        virtualMachine.loadAgent(agentPath);
-                    } else {
-                        String configParam = "command=" + command;
-                        virtualMachine.loadAgent(agentPath, configParam);
-                    }
-                    virtualMachine.detach();
-                }
-            }
-            return "OK";
-        } catch (AgentInitializationException | IOException | AgentLoadException | AttachNotSupportedException e) {
-            return "ERROR";
-        }
-    }
+
 
     private String buildExceptionKey(Exception e) {
         return "Unexpected exception occurs: " + e.getMessage();

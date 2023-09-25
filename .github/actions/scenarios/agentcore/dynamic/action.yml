@@ -28,28 +28,28 @@ runs:
         sed -i '/  passive:/a \  - dynamic-test-second-plugin' sermant-agent-${{ env.sermantVersion }}/agent/config/plugins.yaml
     - name: (install agent) dynamic install agent
       shell: bash
-      run: curl http://127.0.0.1:8915/ping?agentPath=sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar&configParam=NULL
+      run: java -classpath ./sermant-integration-tests/agentcore-test/:${{ env.JAVA_HOME}}/lib/tools.jar VirtualMachineApplication sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar
     - name: (install plugin) dynamic install plugin
       shell: bash
-      run: curl http://127.0.0.1:8915/ping?agentPath=sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar&configParam=INSTALL-PLUGINS:dynamic-test-first-plugin/dynamic-test-second-plugin
+      run: java -classpath ./sermant-integration-tests/agentcore-test/:${{ env.JAVA_HOME}}/lib/tools.jar VirtualMachineApplication sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar INSTALL-PLUGINS:dynamic-test-first-plugin/dynamic-test-second-plugin
     - name: (install plugin) test install plugin
       shell: bash
       run: mvn test -Dsermant.agentcore.test.type=INSTALL_PLUGIN --file sermant-integration-tests/agentcore-test/agentcore-integration-test/pom.xml
     - name: (uninstall plugin) dynamic uninstall plugin
       shell: bash
-      run: curl http://127.0.0.1:8915/ping?agentPath=sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar&configParam=UNINSTALL-PLUGINS:dynamic-test-first-plugin
+      run: java -classpath ./sermant-integration-tests/agentcore-test/:${{ env.JAVA_HOME}}/lib/tools.jar VirtualMachineApplication sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar UNINSTALL-PLUGINS:dynamic-test-first-plugin
     - name: (uninstall plugin) test uninstall plugin
       shell: bash
       run: mvn test -Dsermant.agentcore.test.type=UNINSTALL_PLUGIN --file sermant-integration-tests/agentcore-test/agentcore-integration-test/pom.xml
     - name: (uninstall agent) dynamic uninstall agent
       shell: bash
-      run: curl http://127.0.0.1:8915/ping?agentPath=sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar&configParam=UNINSTALL-AGENT
+      run: java -classpath ./sermant-integration-tests/agentcore-test/:${{ env.JAVA_HOME}}/lib/tools.jar VirtualMachineApplication sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar UNINSTALL-AGENT
     - name: (uninstall agent) test uninstall agent
       shell: bash
       run: mvn test -Dsermant.agentcore.test.type=UNINSTALL_AGENT --file sermant-integration-tests/agentcore-test/agentcore-integration-test/pom.xml
     - name: (reinstall agent) dynamic reinstall agent
       shell: bash
-      run: curl http://127.0.0.1:8915/ping?agentPath=sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar&configParam=INSTALL-PLUGINS:dynamic-test-first-plugin/dynamic-test-second-plugin
+      run: java -classpath ./sermant-integration-tests/agentcore-test/:${{ env.JAVA_HOME}}/lib/tools.jar VirtualMachineApplication sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar INSTALL-PLUGINS:dynamic-test-first-plugin/dynamic-test-second-plugin
     - name: (reinstall agent) test reinstall agent
       shell: bash
       run: mvn test -Dsermant.agentcore.test.type=REINSTALL_AGENT --file sermant-integration-tests/agentcore-test/agentcore-integration-test/pom.xml

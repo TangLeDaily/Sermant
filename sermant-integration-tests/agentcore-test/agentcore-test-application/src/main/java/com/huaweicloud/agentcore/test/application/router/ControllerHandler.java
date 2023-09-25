@@ -75,13 +75,13 @@ public class ControllerHandler implements HttpHandler {
                 return testController.testUninstallAgent();
             case RouterPath.REQUEST_PATH_REINSTALL_AGENT:
                 return testController.testReInstallAgent();
-            case RouterPath.REQUEST_PATH_VIRTUAL_MACHINE: {
-                if (exchange.getRequestURI().getQuery() != null) {
-                    Map<String, String> params = getParams(exchange.getRequestURI().getQuery());
-                    return testController.testVirtualMachine(params);
-                }
-                return REQUEST_PARAMS_ERROR;
-            }
+//            case RouterPath.REQUEST_PATH_VIRTUAL_MACHINE: {
+//                if (exchange.getRequestURI().getQuery() != null) {
+//                    Map<String, String> params = getParams(exchange.getRequestURI().getQuery());
+//                    return testController.testVirtualMachine(params);
+//                }
+//                return REQUEST_PARAMS_ERROR;
+//            }
             default:
                 return REQUEST_URL_NOT_FOUND;
         }
