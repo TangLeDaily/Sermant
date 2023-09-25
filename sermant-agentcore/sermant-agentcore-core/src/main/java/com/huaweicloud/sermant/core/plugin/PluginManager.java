@@ -89,7 +89,8 @@ public class PluginManager {
             LOGGER.log(Level.WARNING, "No plugin is configured to be uninstall.");
             return;
         }
-        pluginNames = new HashSet<>(pluginNames);
+//        pluginNames = new HashSet<>(pluginNames);
+        System.out.println("pre pluginNames.size():"+pluginNames.size());
         for (String name : pluginNames) {
             Plugin plugin = PLUGIN_MAP.get(name);
             if (plugin == null) {
@@ -130,6 +131,7 @@ public class PluginManager {
 
             // 从插件Map中清除该插件
             PLUGIN_MAP.remove(name);
+            System.out.println("after pluginNames.size():"+pluginNames.size());
         }
     }
 
@@ -137,7 +139,7 @@ public class PluginManager {
      * 卸载全部插件
      */
     public static void uninstallAll() {
-        uninstall(PLUGIN_MAP.keySet());
+        uninstall(new HashSet<>(PLUGIN_MAP.keySet()));
     }
 
     /**
