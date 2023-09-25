@@ -25,6 +25,7 @@
         <dependency>
             <groupId>com.huaweicloud.sermant</groupId>
             <artifactId>sermant-common</artifactId>
+            <version>${project.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

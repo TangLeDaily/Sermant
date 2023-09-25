@@ -1,6 +1,6 @@
 # premain启动时生效，配置支持静态安装的插件，不允许卸载
 plugins:
-  - flowcontrol
+#  - flowcontrol
   - service-router
   - service-registry
   - loadbalancer
