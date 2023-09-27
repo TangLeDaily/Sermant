@@ -26,12 +26,12 @@ public enum DynamicResults {
     /**
      * 动态安装插件重复增强不干扰
      */
-    DYNAMIC_INSTALL_REPEAT_ENHANCE("Test dynamic install plugin repetitive enhancement."),
+    DYNAMIC_INSTALL_PLUGIN_REPEAT_ENHANCE("Test dynamic install plugin repetitive enhancement."),
 
     /**
      * 动态卸载插件，拦截点失效
      */
-    DYNAMIC_UNINSTALL_INTERCEPTOR_FAILURE("Test dynamic uninstall plugin, plugin failure."),
+    DYNAMIC_UNINSTALL_PLUGIN_INTERCEPTOR_FAILURE("Test dynamic uninstall plugin, plugin failure."),
 
     /**
      * 动态卸载插件，服务关闭
