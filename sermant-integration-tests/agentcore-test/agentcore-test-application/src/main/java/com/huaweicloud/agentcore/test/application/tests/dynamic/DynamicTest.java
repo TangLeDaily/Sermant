@@ -52,7 +52,7 @@ public class DynamicTest {
         if (!result[0]) {
             DynamicResults.DYNAMIC_UNINSTALL_PLUGIN_INTERCEPTOR_FAILURE.setResult(true);
         }
-        if (!result[1]) {
+        if (result[1]) {
             DynamicResults.DYNAMIC_UNINSTALL_REPEAT_ENHANCE.setResult(true);
         }
     }
