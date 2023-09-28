@@ -16,13 +16,22 @@
 
 package com.huaweicloud.agentcore.test.application.controller;
 
+import com.huaweicloud.agentcore.test.application.results.BootstrapResults;
+import com.huaweicloud.agentcore.test.application.results.ClassMatchResults;
 import com.huaweicloud.agentcore.test.application.results.DynamicConfigResults;
 import com.huaweicloud.agentcore.test.application.results.DynamicResults;
+import com.huaweicloud.agentcore.test.application.results.EnhanceResults;
+import com.huaweicloud.agentcore.test.application.results.MethodMatchResults;
+import com.huaweicloud.agentcore.test.application.tests.bootstrap.BootstrapTest;
+import com.huaweicloud.agentcore.test.application.tests.classmatch.ClassMatchersTest;
 import com.huaweicloud.agentcore.test.application.tests.dynamic.DynamicTest;
 import com.huaweicloud.agentcore.test.application.tests.dynamicconfig.DynamicConfigTest;
+import com.huaweicloud.agentcore.test.application.tests.enhancement.EnhancementTest;
+import com.huaweicloud.agentcore.test.application.tests.methodmatch.MethodMatchersTest;
 
 import com.alibaba.fastjson.JSONObject;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -120,6 +129,70 @@ public class TestController {
         dynamicTest.testReInstallAgent();
         resultMap.put(DynamicResults.DYNAMIC_REINSTALL_AGENT_PLUGIN_SUCCESS.name(),
                 DynamicResults.DYNAMIC_REINSTALL_AGENT_PLUGIN_SUCCESS.getResult());
+        JSONObject jsonObject = new JSONObject(resultMap);
+        return jsonObject.toJSONString();
+    }
+
+    /**
+     * 测试类匹配
+     *
+     * @return 测试结果
+     */
+    public String testClassMatch() {
+        Map<String, Object> resultMap = new HashMap<>();
+        ClassMatchersTest classMatchersTest = new ClassMatchersTest();
+        classMatchersTest.testClassMatchers();
+        for (ClassMatchResults value : ClassMatchResults.values()) {
+            resultMap.put(value.name(), value.getResult());
+        }
+        JSONObject jsonObject = new JSONObject(resultMap);
+        return jsonObject.toJSONString();
+    }
+
+    /**
+     * 测试方法匹配
+     *
+     * @return 测试结果
+     */
+    public String testMethodMatch() {
+        Map<String, Object> resultMap = new HashMap<>();
+        MethodMatchersTest methodMatchersTest = new MethodMatchersTest(false);
+        methodMatchersTest.testMethodMatchers();
+        for (MethodMatchResults value : MethodMatchResults.values()) {
+            resultMap.put(value.name(), value.getResult());
+        }
+        JSONObject jsonObject = new JSONObject(resultMap);
+        return jsonObject.toJSONString();
+    }
+
+    /**
+     * 测试增强
+     *
+     * @return 测试结果
+     */
+    public String testEnhancement() {
+        Map<String, Object> resultMap = new HashMap<>();
+        EnhancementTest enhancementTest = new EnhancementTest();
+        enhancementTest.testEnhancement();
+        for (EnhanceResults value : EnhanceResults.values()) {
+            resultMap.put(value.name(), value.getResult());
+        }
+        JSONObject jsonObject = new JSONObject(resultMap);
+        return jsonObject.toJSONString();
+    }
+
+    /**
+     * 测试系统类
+     *
+     * @return 测试结果
+     */
+    public String testBootstrap() {
+        Map<String, Object> resultMap = new HashMap<>();
+        BootstrapTest bootstrapTest = new BootstrapTest();
+        bootstrapTest.testBootstrap();
+        for (BootstrapResults value : BootstrapResults.values()) {
+            resultMap.put(value.name(), value.getResult());
+        }
         JSONObject jsonObject = new JSONObject(resultMap);
         return jsonObject.toJSONString();
     }

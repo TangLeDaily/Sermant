@@ -16,8 +16,6 @@
 
 package com.huaweicloud.agentcore.test.request.utils;
 
-import com.huaweicloud.agentcore.test.request.dynamicconfig.DynamicConfigTest;
-
 import com.alibaba.fastjson.JSONObject;
 
 import org.apache.http.client.config.RequestConfig;
@@ -41,7 +39,7 @@ import java.util.Map;
  * @since 2023-09-26
  */
 public class RequestUtils {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DynamicConfigTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RequestUtils.class);
 
     /**
      * 对测试请求结果进行断言判断

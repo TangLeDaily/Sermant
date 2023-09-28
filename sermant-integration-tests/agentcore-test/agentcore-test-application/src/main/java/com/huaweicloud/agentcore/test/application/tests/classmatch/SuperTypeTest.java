@@ -14,25 +14,21 @@
  * limitations under the License.
  */
 
-package com.huaweicloud.agentcore.test.request.dynamicconfig;
+package com.huaweicloud.agentcore.test.application.tests.classmatch;
 
-import com.huaweicloud.agentcore.test.request.utils.RequestUtils;
-
-import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
-import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
+import com.huaweicloud.agentcore.test.application.common.TestSuperTypeA;
+import com.huaweicloud.agentcore.test.application.results.ClassMatchResults;
 
 /**
- * 动态配置测试方法，采用http请求调用方式测试
+ * 测试根据单个父类匹配
  *
- * @author tangle
- * @since 2023-09-07
+ * @author luanwenfei
+ * @since 2022-10-24
  */
-@EnabledIfSystemProperty(named = "agentcore.test.type", matches = "DYNAMIC_CONFIG")
-public class DynamicConfigTest {
-    @Test
-    public void testDynamicConfig() throws IOException {
-        RequestUtils.testRequest("http://127.0.0.1:8915/testDynamicConfig");
+public class SuperTypeTest implements TestSuperTypeA {
+    public static void staticFunction(boolean enhanceFlag) {
+        if (enhanceFlag) {
+            ClassMatchResults.MATCHER_CLASS_BY_SUPER_TYPE.setResult(true);
+        }
     }
 }

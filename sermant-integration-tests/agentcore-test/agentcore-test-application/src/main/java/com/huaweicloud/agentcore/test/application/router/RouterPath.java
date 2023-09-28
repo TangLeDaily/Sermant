@@ -53,6 +53,26 @@ public class RouterPath {
      */
     public static final String REQUEST_PATH_REINSTALL_AGENT = "/testReInstallAgent";
 
+    /**
+     * 测试类匹配
+     */
+    public static final String REQUEST_PATH_CLASS_MATCH = "/testClassMatch";
+
+    /**
+     * 测试动态重装Agent请求地址
+     */
+    public static final String REQUEST_PATH_METHOD_MATCH = "/testMethodMatch";
+
+    /**
+     * 测试动态重装Agent请求地址
+     */
+    public static final String REQUEST_PATH_ENHANCEMENT = "/testEnhancement";
+
+    /**
+     * 测试动态重装Agent请求地址
+     */
+    public static final String REQUEST_PATH_BOOTSTRAP = "/testBootstrap";
+
     private RouterPath() {
     }
 }
