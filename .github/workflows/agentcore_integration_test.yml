@@ -62,7 +62,7 @@ jobs:
       - name: Set up JDK 8
         uses: actions/setup-java@v2
         with:
-          java-version: '8'
+          java-version: '17'
           distribution: 'adopt'
           cache: maven
       - name: cache agent
@@ -94,7 +94,7 @@ jobs:
           fetch-depth: 100
       - name: set java version to environment
         run: |
-          echo "javaVersion=8" >> $GITHUB_ENV
+          echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/agentcore
       - name: start agentcore common test
@@ -109,7 +109,7 @@ jobs:
           fetch-depth: 100
       - name: set java version to environment
         run: |
-          echo "javaVersion=8" >> $GITHUB_ENV
+          echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/agentcore
       - name: start dynamic test
