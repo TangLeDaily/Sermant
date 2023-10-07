@@ -43,6 +43,9 @@ import java.util.Map;
 public class RequestUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(RequestUtils.class);
 
+    private RequestUtils() {
+    }
+
     /**
      * 对测试请求结果进行断言判断
      *
