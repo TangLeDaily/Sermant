@@ -29,10 +29,7 @@ import java.io.IOException;
  * @author tangle
  * @since 2023-09-26
  */
-@EnabledIfSystemProperty(named = "agentcore.test.type", matches = "INSTALL_PLUGIN")
+
 public class DynamicInstallPluginTest {
-    @Test
-    public void testInstallPlugin() throws IOException {
-        RequestUtils.testRequest("http://127.0.0.1:8915/testInstallPlugin");
-    }
+
 }

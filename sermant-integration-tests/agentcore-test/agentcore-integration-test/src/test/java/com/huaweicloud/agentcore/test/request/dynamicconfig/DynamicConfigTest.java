@@ -29,10 +29,34 @@ import java.io.IOException;
  * @author tangle
  * @since 2023-09-07
  */
-@EnabledIfSystemProperty(named = "agentcore.test.type", matches = "DYNAMIC_CONFIG")
 public class DynamicConfigTest {
+    @EnabledIfSystemProperty(named = "agentcore.test.type", matches = "DYNAMIC_CONFIG")
     @Test
     public void testDynamicConfig() throws IOException {
         RequestUtils.testRequest("http://127.0.0.1:8915/testDynamicConfig");
+    }
+
+    @EnabledIfSystemProperty(named = "agentcore.test.type", matches = "INSTALL_PLUGIN")
+    @Test
+    public void testInstallPlugin() throws IOException {
+        RequestUtils.testRequest("http://127.0.0.1:8915/testInstallPlugin");
+    }
+
+    @EnabledIfSystemProperty(named = "agentcore.test.type", matches = "REINSTALL_AGENT")
+    @Test
+    public void testReInstallAgent() throws IOException {
+        RequestUtils.testRequest("http://127.0.0.1:8915/testReInstallAgent");
+    }
+
+    @EnabledIfSystemProperty(named = "agentcore.test.type", matches = "UNINSTALL_AGENT")
+    @Test
+    public void testUninstallAgent() throws IOException {
+        RequestUtils.testRequest("http://127.0.0.1:8915/testUninstallAgent");
+    }
+
+    @EnabledIfSystemProperty(named = "agentcore.test.type", matches = "UNINSTALL_PLUGIN")
+    @Test
+    public void testUninstallPlugin() throws IOException {
+        RequestUtils.testRequest("http://127.0.0.1:8915/testUninstallPlugin");
     }
 }

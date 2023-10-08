@@ -29,10 +29,6 @@ import java.io.IOException;
  * @author tangle
  * @since 2023-09-26
  */
-@EnabledIfSystemProperty(named = "agentcore.test.type", matches = "REINSTALL_AGENT")
 public class DynamicReInstallAgentTest {
-    @Test
-    public void testInstallPlugin() throws IOException {
-        RequestUtils.testRequest("http://127.0.0.1:8915/testReInstallAgent");
-    }
+
 }
