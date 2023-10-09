@@ -26,6 +26,12 @@ import com.huaweicloud.agentcore.test.application.results.DynamicResults;
  */
 public class DynamicTest {
     /**
+     * 测试的boolean数组下标
+     */
+    private static final int INDEX_0 = 0;
+    private static final int INDEX_1 = 1;
+    private static final int INDEX_2 = 2;
+    /**
      * 用于测试插件反射修改的回执结果：监听成功
      */
     private static boolean serviceCloseSuccess;
@@ -38,8 +44,8 @@ public class DynamicTest {
      * 测试动态安装插件
      */
     public void testInstallPlugin() {
-        boolean[] result = repeatEnhance(false, false);
-        if (result[0] && result[1]) {
+        boolean[] result = repeatEnhance(false, false, false);
+        if (result[INDEX_0] && result[INDEX_1]) {
             DynamicResults.DYNAMIC_INSTALL_PLUGIN_REPEAT_ENHANCE.setResult(true);
         }
     }
@@ -48,11 +54,11 @@ public class DynamicTest {
      * 测试动态卸载插件
      */
     public void testUninstallPlugin() {
-        boolean[] result = repeatEnhance(false, false);
-        if (!result[0]) {
+        boolean[] result = repeatEnhance(false, false, false);
+        if (!result[INDEX_0]) {
             DynamicResults.DYNAMIC_UNINSTALL_PLUGIN_INTERCEPTOR_FAILURE.setResult(true);
         }
-        if (result[1]) {
+        if (result[INDEX_1]) {
             DynamicResults.DYNAMIC_UNINSTALL_REPEAT_ENHANCE.setResult(true);
         }
     }
@@ -61,8 +67,8 @@ public class DynamicTest {
      * 测试动态卸载Agent
      */
     public void testUninstallAgent() {
-        boolean[] result = repeatEnhance(false, false);
-        if (!result[0] && !result[1]) {
+        boolean[] result = repeatEnhance(false, false, false);
+        if (!result[INDEX_0] && !result[INDEX_1]) {
             DynamicResults.DYNAMIC_UNINSTALL_AGENT_PLUGIN_FAILURE.setResult(true);
         }
     }
@@ -71,9 +77,38 @@ public class DynamicTest {
      * 测试动态重装Agent
      */
     public void testReInstallAgent() {
-        boolean[] result = repeatEnhance(false, false);
-        if (result[0] && result[1]) {
+        boolean[] result = repeatEnhance(false, false, false);
+        if (result[INDEX_0] && result[INDEX_1]) {
             DynamicResults.DYNAMIC_REINSTALL_AGENT_PLUGIN_SUCCESS.setResult(true);
+        }
+    }
+
+    /**
+     * 测试premain启动
+     */
+    public void testPremain() {
+        boolean[] result = repeatEnhance(false, false, false);
+        if (result[INDEX_0]) {
+            DynamicResults.PREMAIN_STATIC_PLUGIN_INTERCEPTOR_SUCCESS.setResult(true);
+        }
+        if (!result[INDEX_1]) {
+            DynamicResults.PREMAIN_DYNAMIC_PLUGIN_INTERCEPTOR_FAILURE.setResult(true);
+        }
+    }
+
+    /**
+     * 测试agentmain启动
+     */
+    public void testAgentmain() {
+        boolean[] result = repeatEnhance(false, false, false);
+        if (!result[INDEX_0]) {
+            DynamicResults.AGENTMAIN_STATIC_PLUGIN_INTERCEPTOR_FAILURE.setResult(true);
+        }
+        if (result[INDEX_1]) {
+            DynamicResults.AGENTMAIN_ACTIVE_PLUGIN_INTERCEPTOR_SUCCESS.setResult(true);
+        }
+        if (!result[INDEX_2]) {
+            DynamicResults.AGENTMAIN_PASSIVE_PLUGIN_INTERCEPTOR_FAILURE.setResult(true);
         }
     }
 
@@ -84,7 +119,7 @@ public class DynamicTest {
      * @param secondEnhanceFlag second-plugin的增强flag
      * @return 增强结果数组
      */
-    private boolean[] repeatEnhance(boolean firstEnhanceFlag, boolean secondEnhanceFlag) {
-        return new boolean[]{firstEnhanceFlag, secondEnhanceFlag};
+    private boolean[] repeatEnhance(boolean firstEnhanceFlag, boolean secondEnhanceFlag, boolean thirdEnhanceFlag) {
+        return new boolean[]{firstEnhanceFlag, secondEnhanceFlag, thirdEnhanceFlag};
     }
 }

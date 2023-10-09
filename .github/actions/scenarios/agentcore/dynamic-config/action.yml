@@ -1,5 +1,5 @@
-name: "Agent-core Common Test"
-description: "Auto test for agent-core common, include nacos dynamic config"
+name: "Dynamic Config Test"
+description: "Auto test for dynamic config"
 runs:
   using: "composite"
   steps:
@@ -10,8 +10,8 @@ runs:
     - name: start applications
       shell: bash
       env:
-        dynamic.config.serverAddress: 127.0.0.1:8848
-        dynamic.config.dynamicConfigType: NACOS
+        dynamic.config.serverAddress: ${{ matrix.serviceAddress }}
+        dynamic.config.dynamicConfigType: ${{ matrix.dynamicConfigType }}
         service.meta.project: TestAgentCore
       run: |
         nohup java -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar -jar \
@@ -33,7 +33,7 @@ runs:
       uses: actions/upload-artifact@v3
       if: ${{ failure() || cancelled() }}
       with:
-        name: agentcore-test-logs
+        name: agentcore-test-dynamic-config-logs
         path: |
           ./*.log
           ./logs/**

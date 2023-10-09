@@ -124,6 +124,42 @@ public class TestController {
         return jsonObject.toJSONString();
     }
 
+    /**
+     * 测试premain启动
+     *
+     * @return 测试结果
+     */
+    public String testPremain() {
+        Map<String, Object> resultMap = new HashMap<>();
+        DynamicTest dynamicTest = new DynamicTest();
+        dynamicTest.testPremain();
+        resultMap.put(DynamicResults.PREMAIN_STATIC_PLUGIN_INTERCEPTOR_SUCCESS.name(),
+                DynamicResults.PREMAIN_STATIC_PLUGIN_INTERCEPTOR_SUCCESS.getResult());
+        resultMap.put(DynamicResults.PREMAIN_DYNAMIC_PLUGIN_INTERCEPTOR_FAILURE.name(),
+                DynamicResults.PREMAIN_DYNAMIC_PLUGIN_INTERCEPTOR_FAILURE.getResult());
+        JSONObject jsonObject = new JSONObject(resultMap);
+        return jsonObject.toJSONString();
+    }
+
+    /**
+     * 测试agentmain启动
+     *
+     * @return 测试结果
+     */
+    public String testAgentmain() {
+        Map<String, Object> resultMap = new HashMap<>();
+        DynamicTest dynamicTest = new DynamicTest();
+        dynamicTest.testAgentmain();
+        resultMap.put(DynamicResults.AGENTMAIN_STATIC_PLUGIN_INTERCEPTOR_FAILURE.name(),
+                DynamicResults.AGENTMAIN_STATIC_PLUGIN_INTERCEPTOR_FAILURE.getResult());
+        resultMap.put(DynamicResults.AGENTMAIN_ACTIVE_PLUGIN_INTERCEPTOR_SUCCESS.name(),
+                DynamicResults.AGENTMAIN_ACTIVE_PLUGIN_INTERCEPTOR_SUCCESS.getResult());
+        resultMap.put(DynamicResults.AGENTMAIN_PASSIVE_PLUGIN_INTERCEPTOR_FAILURE.name(),
+                DynamicResults.AGENTMAIN_PASSIVE_PLUGIN_INTERCEPTOR_FAILURE.getResult());
+        JSONObject jsonObject = new JSONObject(resultMap);
+        return jsonObject.toJSONString();
+    }
+
     private String buildExceptionKey(Exception e) {
         return "Unexpected exception occurs: " + e.getMessage();
     }

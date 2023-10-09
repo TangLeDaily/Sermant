@@ -16,10 +16,12 @@
 
 package com.huaweicloud.agentcore.test.request;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * 请求测试类，采用http请求调用方式测试
@@ -71,5 +73,44 @@ public class RequestTest {
     @EnabledIfSystemProperty(named = "agentcore.test.type", matches = "INSTALL_PLUGIN")
     public void testInstallPlugin() throws IOException {
         RequestUtils.testRequest("http://127.0.0.1:8915/testInstallPlugin");
+    }
+
+    /**
+     * agentmain启动测试方法
+     */
+    @Test
+    @EnabledIfSystemProperty(named = "agentcore.test.type", matches = "AGENTMAIN_STARTUP")
+    public void testAgentmain() throws IOException {
+        RequestUtils.testRequest("http://127.0.0.1:8915/testAgentmain");
+    }
+
+    /**
+     * premain启动测试方法
+     */
+    @Test
+    @EnabledIfSystemProperty(named = "agentcore.test.type", matches = "PREMAIN_STARTUP")
+    public void testPremain() throws IOException {
+        RequestUtils.testRequest("http://127.0.0.1:8915/testPremain");
+    }
+
+    /**
+     * 启动后backend的appType和service字段设置测试方法
+     */
+    @Test
+    @EnabledIfSystemProperty(named = "agentcore.test.type", matches = "PREMAIN_STARTUP|AGENTMAIN_STARTUP")
+    public void testBackend() throws IOException {
+        Map<String, Object> resultMap = RequestUtils.analyzingRequestBackend(
+                "http://127.0.0.1:8900/sermant/getPluginsInfo");
+        Assertions.assertNotNull(resultMap, "getPluginsInfo result");
+        Assertions.assertTrue(resultMap.containsKey("appType"), "the result contains appType");
+        Assertions.assertTrue(resultMap.containsKey("service"), "the result contains service");
+        for (Map.Entry<String, Object> entry : resultMap.entrySet()) {
+            if (entry.getKey().equals("appType")) {
+                Assertions.assertEquals("default", entry.getValue(), "the value of appType");
+            }
+            if (entry.getKey().equals("service")) {
+                Assertions.assertEquals("default", entry.getValue(), "the value of service");
+            }
+        }
     }
 }

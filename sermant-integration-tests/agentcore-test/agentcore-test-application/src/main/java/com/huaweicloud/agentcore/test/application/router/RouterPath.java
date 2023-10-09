@@ -53,6 +53,16 @@ public class RouterPath {
      */
     public static final String REQUEST_PATH_REINSTALL_AGENT = "/testReInstallAgent";
 
+    /**
+     * 测试premain启动请求地址
+     */
+    public static final String REQUEST_PATH_PREMAIN = "/testPremain";
+
+    /**
+     * 测试agentmain启动请求地址
+     */
+    public static final String REQUEST_PATH_AGENTMAIN = "/testAgentmain";
+
     private RouterPath() {
     }
 }
