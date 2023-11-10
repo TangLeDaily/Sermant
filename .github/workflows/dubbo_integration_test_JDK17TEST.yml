@@ -105,9 +105,6 @@ jobs:
           echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/dubbo
-      - name: (dubbo router) test for ${{ matrix.dubbo-version }}-${{ matrix.dubbo-versions }}
-        if: env.enableDubboRouter == 'true'
-        uses: ./.github/actions/scenarios/dubbo/router
-      - name: removal test for ${{ matrix.dubbo-version }}-${{ matrix.dubbo-versions }}
-        if: env.enableRemoval == 'true'
-        uses: ./.github/actions/scenarios/dubbo/removal
+      - name: monitor test for ${{ matrix.dubbo-version }}-${{ matrix.dubbo-versions }}
+        if: env.enableMonitor == 'true'
+        uses: ./.github/actions/scenarios/dubbo/monitor
