@@ -29,7 +29,7 @@ runs:
         SERVER_PORT: 28054
         DUBBO_PROTOCOL_PORT: 28854
       run: |
-        nohup java --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/jdk.internal=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED -jar sermant-integration-tests/dubbo-test/dubbo-${{ env.projectPath }}-integration-provider/target/dubbo-integration-provider.jar > ${{ env.logDir }}/monitor-provider.log 2>&1 &
+        nohup java -jar sermant-integration-tests/dubbo-test/dubbo-${{ env.projectPath }}-integration-provider/target/dubbo-integration-provider.jar > ${{ env.logDir }}/monitor-provider.log 2>&1 &
     - name: start monitor consumer service
       shell: bash
       env:
@@ -38,7 +38,7 @@ runs:
         MONITOR_CONFIG_ENABLE_START_SERVICE: true
         FLOW_CONTROL_PLUGIN_ENABLE_START_MONITOR: true # 是否启动指标监控
       run: |
-        nohup java -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=dubbo-integration-consumer --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/jdk.internal=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED -jar \
+        nohup java -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=dubbo-integration-consumer -jar \
         sermant-integration-tests/dubbo-test/dubbo-${{ env.projectPath }}-integration-consumer/target/dubbo-integration-consumer.jar > ${{ env.logDir }}/monitor-consumer.log 2>&1 &
     - name: waiting for monitor services start
       shell: bash

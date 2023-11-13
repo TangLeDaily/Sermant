@@ -30,7 +30,7 @@
           SERVER_PORT: 28021
           DUBBO_PROTOCOL_PORT: 28821
         run: |
-          nohup java -jar sermant-integration-tests/dubbo-test/dubbo-${{ env.projectPath }}-integration-provider/target/dubbo-integration-provider.jar > ${{ env.logDir }}/removal-provider-28021.log 2>&1 &
+          nohup java --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED -jar sermant-integration-tests/dubbo-test/dubbo-${{ env.projectPath }}-integration-provider/target/dubbo-integration-provider.jar > ${{ env.logDir }}/removal-provider-28021.log 2>&1 &
       - name: start provider service
         shell: bash
         env:
@@ -38,7 +38,7 @@
           SERVER_PORT: 28022
           DUBBO_PROTOCOL_PORT: 28822
         run: |
-          nohup java -jar sermant-integration-tests/dubbo-test/dubbo-${{ env.projectPath }}-integration-provider/target/dubbo-integration-provider.jar > ${{ env.logDir }}/removal-provider-28022.log 2>&1 &
+          nohup java --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED -jar sermant-integration-tests/dubbo-test/dubbo-${{ env.projectPath }}-integration-provider/target/dubbo-integration-provider.jar > ${{ env.logDir }}/removal-provider-28022.log 2>&1 &
       - name: start provider service
         shell: bash
         env:
@@ -46,7 +46,7 @@
           SERVER_PORT: 28023
           DUBBO_PROTOCOL_PORT: 28823
         run: |
-          nohup java -jar sermant-integration-tests/dubbo-test/dubbo-${{ env.projectPath }}-integration-provider/target/dubbo-integration-provider.jar  > ${{ env.logDir }}/removal-provider-28023.log 2>&1 &
+          nohup java --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED -jar sermant-integration-tests/dubbo-test/dubbo-${{ env.projectPath }}-integration-provider/target/dubbo-integration-provider.jar  > ${{ env.logDir }}/removal-provider-28023.log 2>&1 &
       - name: start consumer service
         shell: bash
         env:
@@ -60,7 +60,7 @@
           SERVER_PORT: 28020
           DUBBO_PROTOCOL_PORT: 28820
         run: |
-          nohup java -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=dubbo-integration-consumer -jar \
+          nohup java --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=dubbo-integration-consumer -jar \
           sermant-integration-tests/dubbo-test/dubbo-${{ env.projectPath }}-integration-consumer/target/dubbo-integration-consumer.jar > ${{ env.logDir }}/removal-consumer-28050.log 2>&1 &
       - name: waiting for services start
         shell: bash

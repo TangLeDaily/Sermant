@@ -82,10 +82,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 8
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          java-version: '8'
+          java-version: '17'
           distribution: 'adopt'
           cache: maven
       - name: cache agent
@@ -116,7 +116,7 @@ jobs:
           fetch-depth: 100
       - name: set java version to environment
         run: |
-          echo "javaVersion=8" >> $GITHUB_ENV
+          echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/tag-transmission
       - name: tag transmission test for httpClientVersion=${{ matrix.httpClientVersion }}
@@ -138,7 +138,7 @@ jobs:
           fetch-depth: 100
       - name: set java version to environment
         run: |
-          echo "javaVersion=8" >> $GITHUB_ENV
+          echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/tag-transmission
       - name: tag transmission test for httpClientVersion=${{ matrix.httpClientVersion }}
@@ -165,7 +165,7 @@ jobs:
           fetch-depth: 100
       - name: set java version to environment
         run: |
-          echo "javaVersion=8" >> $GITHUB_ENV
+          echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/tag-transmission
       - name: tag transmission test for okHttpVersion=${{ matrix.okHttpVersion }}
@@ -193,7 +193,7 @@ jobs:
           fetch-depth: 100
       - name: set java version to environment
         run: |
-          echo "javaVersion=8" >> $GITHUB_ENV
+          echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/tag-transmission
       - name: tag transmission test for grpcVersion=${{ matrix.grpcVersion }}
@@ -221,7 +221,7 @@ jobs:
           fetch-depth: 100
       - name: set java version to environment
         run: |
-          echo "javaVersion=8" >> $GITHUB_ENV
+          echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/tag-transmission
       - name: tag transmission test for sofaRpcVersion=${{ matrix.sofaRpcVersion }}
@@ -247,7 +247,7 @@ jobs:
           fetch-depth: 100
       - name: set java version to environment
         run: |
-          echo "javaVersion=8" >> $GITHUB_ENV
+          echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/tag-transmission
       - name: tag transmission test for servicecombVersion=${{ matrix.serviceCombVersion }}
@@ -271,7 +271,7 @@ jobs:
           fetch-depth: 100
       - name: set java version to environment
         run: |
-          echo "javaVersion=8" >> $GITHUB_ENV
+          echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/tag-transmission
       - name: tag transmission test for alibabaDubboVersion=${{ matrix.alibabaDubboVersion }}
@@ -296,7 +296,7 @@ jobs:
           fetch-depth: 100
       - name: set java version to environment
         run: |
-          echo "javaVersion=8" >> $GITHUB_ENV
+          echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/tag-transmission
       - name: tag transmission test for apacheDubboVersion=${{ matrix.apacheDubboVersion}}
@@ -311,7 +311,7 @@ jobs:
           fetch-depth: 100
       - name: set java version to environment
         run: |
-          echo "javaVersion=8" >> $GITHUB_ENV
+          echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/tag-transmission
       - name: tag transmission test for crossthread
@@ -326,7 +326,7 @@ jobs:
           fetch-depth: 100
       - name: set java version to environment
         run: |
-          echo "javaVersion=8" >> $GITHUB_ENV
+          echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/tag-transmission
       - name: tag transmission test for config
@@ -348,7 +348,7 @@ jobs:
           fetch-depth: 100
       - name: set java version to environment
         run: |
-          echo "javaVersion=8" >> $GITHUB_ENV
+          echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/tag-transmission
       - name: tag transmission test for kafkaVersion=${{ matrix.kafkaVersion }}
@@ -371,7 +371,7 @@ jobs:
           fetch-depth: 100
       - name: set java version to environment
         run: |
-          echo "javaVersion=8" >> $GITHUB_ENV
+          echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/tag-transmission
       - name: tag transmission test for rocketMqVersion=${{ matrix.rocketMqVersion }}
@@ -398,7 +398,7 @@ jobs:
           fetch-depth: 100
       - name: set java version to environment
         run: |
-          echo "javaVersion=8" >> $GITHUB_ENV
+          echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/tag-transmission
       - name: tag transmission test for springBootVersion=${{ matrix.springBootVersion }}
@@ -425,7 +425,7 @@ jobs:
           fetch-depth: 100
       - name: set java version to environment
         run: |
-          echo "javaVersion=8" >> $GITHUB_ENV
+          echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/tag-transmission
       - name: tag transmission test for springBootVersion=${{ matrix.springBootVersion }}

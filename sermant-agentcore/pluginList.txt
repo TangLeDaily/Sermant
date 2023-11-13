@@ -1,9 +1,17 @@
 IS SUCCUSS:
 dubbo:
- visibility
-spring:
+ visibility (都支持)
+ monitor (2.5.3之前不支持) [带参数 --add-opens java.base/java.lang=ALL-UNNAMED]
+spring: (2.1.0之前不支持)
+ monitor (2.1.0之前不支持)
+ visibility (2.1.0之前不支持)
+tag:
+  支持httpclient/okhttp
 
 
+mvn package -Dspring.cloud.version=2021.0.3 -Dspring.boot.version=2.7.2 -DskipTests -P common-test --file pom.xml
+
+--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED --add-exports java.base/sun.net.www=ALL-UNNAMED
 IS FAIL:
 router
 removel
@@ -18,22 +26,22 @@ lane - monitor
 NOT IN TEST:
 
 ERROR:
-spring-common:
 【流控】com.huawei.flowcontrol.config.SpringFactoriesInterceptor
 【注册迁移】com.huawei.registry.interceptors.SpringFactoriesInterceptor
 【负载均衡】com.huaweicloud.loadbalancer.interceptor.SpringFactoriesInterceptor
 【路由】com.huaweicloud.sermant.router.spring.interceptor.HandlerExecutionChainInterceptor
 【路由】com.huawei.discovery.interceptors.httpconnection.HttpUrlConnectionConnectInterceptor
 【路由】com.huaweicloud.sermant.router.spring.interceptor.HandlerExecutionChainInterceptor
-
-spring-dynamic:
 【动态配置】com.huawei.dynamic.config.interceptors.SpringFactoriesInterceptor
+【springboot注册】com.huawei.discovery.interceptors.httpconnection.HttpUrlConnectionResponseStreamInterceptor.buildFunc
+(setAccessible)
 
 dubbo-common:
 
 ######################
 --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/jdk.internal=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED
-Test for common with command --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/jdk.internal=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/jdk.internal=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED
+--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/jdk.internal=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/jdk.internal=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED
 Test for common with command --add-opens java.base/java.net=ALL-UNNAMED
 Test for common with command --add-opens java.base/jdk.internal=ALL-UNNAMED
 Test for common with command --add-opens java.base/java.math=ALL-UNNAMED
+--add-exports java.base/sun.net

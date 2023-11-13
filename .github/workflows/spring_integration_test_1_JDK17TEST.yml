@@ -91,6 +91,14 @@ jobs:
     strategy:
       matrix:
         include:
+          - springBootVersion: "1.5.0.RELEASE"
+            springCloudVersion: "Edgware.SR2"
+            nacosVersion: "1.5.0.RELEASE"
+          - springBootVersion: "2.0.2.RELEASE"
+            springCloudVersion: "Finchley.RELEASE"
+            httpClientVersion: "4.1.3"
+            nacosVersion: "2.0.0.RELEASE"
+            jettyClientVersion: "1.0.1"
           - springBootVersion: "2.1.0.RELEASE"
             springCloudVersion: "Greenwich.RELEASE"
             httpClientVersion: "4.2.6"
@@ -130,6 +138,3 @@ jobs:
           echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/spring
-      - name: monitor test for springboot=${{ matrix.springBootVersion }} springCloudVersion=${{ matrix.springCloudVersion }}
-        if: env.enableMonitor == 'true'
-        uses: ./.github/actions/scenarios/spring/monitor

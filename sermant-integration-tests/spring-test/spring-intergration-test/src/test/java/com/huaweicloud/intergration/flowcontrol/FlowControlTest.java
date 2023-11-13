@@ -185,6 +185,7 @@ public abstract class FlowControlTest {
         AtomicBoolean expected = new AtomicBoolean(false);
         final BiFunction<ClientHttpResponse, String, String> callback =
                 (clientHttpResponse, result) -> {
+                    System.out.println(result+" | "+flowControlMsg);
                     if (result.contains(flowControlMsg)) {
                         expected.set(true);
                         if  (check != null) {

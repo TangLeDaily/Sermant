@@ -16,7 +16,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <spring.boot.version>2.2.0.RELEASE</spring.boot.version>
+        <spring.boot.version>2.7.2</spring.boot.version>
         <tag-transmission.version>1.0.0</tag-transmission.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
