@@ -9,18 +9,24 @@ router
 removel
 monitor - graceful - lane
 xx - common
+common - dynamic
 
 IN TEST:
-common - dynamic
+lane - monitor
 
 
 NOT IN TEST:
 
 ERROR:
 spring-common:
-com.huawei.flowcontrol.config.SpringFactoriesInterceptor
-com.huawei.registry.interceptors.SpringFactoriesInterceptor
-com.huaweicloud.loadbalancer.interceptor.SpringFactoriesInterceptor
-com.huaweicloud.sermant.router.spring.interceptor.HandlerExecutionChainInterceptor
+[流控]com.huawei.flowcontrol.config.SpringFactoriesInterceptor
+[注册迁移]com.huawei.registry.interceptors.SpringFactoriesInterceptor
+【负载均衡】com.huaweicloud.loadbalancer.interceptor.SpringFactoriesInterceptor
+【路由】com.huaweicloud.sermant.router.spring.interceptor.HandlerExecutionChainInterceptor
 com.huawei.discovery.interceptors.httpconnection.HttpUrlConnectionConnectInterceptor
 com.huaweicloud.sermant.router.spring.interceptor.HandlerExecutionChainInterceptor
+
+spring-dynamic:
+[动态配置]com.huawei.dynamic.config.interceptors.SpringFactoriesInterceptor
+
+dubbo-common:
