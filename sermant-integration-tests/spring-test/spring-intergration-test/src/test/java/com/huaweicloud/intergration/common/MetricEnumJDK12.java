@@ -83,7 +83,7 @@ public enum MetricEnumJDK12 {
      * JDK9存储未经过性能分析的编译代码的codeCache提交值
      */
     NON_PROFILED_NMETHODS_COMMITTED("non_profiled_nmethods_committed",
-            "the number is committed of non-profiled nmethods"),
+            "the number is committed of non-profiled nmethods");
 
 //    /**
 //     * JDK9的Epsilon收集器初始值
@@ -104,25 +104,25 @@ public enum MetricEnumJDK12 {
 //     * JDK9的Epsilon收集器提交值
 //     */
 //    EPSILON_HEAP_COMMITTED("epsilon_heap_committed", "the number is committed of Epsilon Heap"),
-    /**
-     * JDK12的Shenandoah收集器初始值
-     */
-    SHENANDOAH_INIT("shenandoah_init", "the number is init of Shenandoah"),
-
-    /**
-     * JDK12的Shenandoah收集器使用值
-     */
-    SHENANDOAH_USED("shenandoah_used", "the number is used of Shenandoah"),
-
-    /**
-     * JDK12的Shenandoah收集器最大值
-     */
-    SHENANDOAH_MAX("shenandoah_max", "the number is max of Shenandoah"),
-
-    /**
-     * JDK12的Shenandoah收集器提交值
-     */
-    SHENANDOAH_COMMITTED("shenandoah_committed", "the number is committed of Shenandoah");
+//    /**
+//     * JDK12的Shenandoah收集器初始值
+//     */
+//    SHENANDOAH_INIT("shenandoah_init", "the number is init of Shenandoah"),
+//
+//    /**
+//     * JDK12的Shenandoah收集器使用值
+//     */
+//    SHENANDOAH_USED("shenandoah_used", "the number is used of Shenandoah"),
+//
+//    /**
+//     * JDK12的Shenandoah收集器最大值
+//     */
+//    SHENANDOAH_MAX("shenandoah_max", "the number is max of Shenandoah"),
+//
+//    /**
+//     * JDK12的Shenandoah收集器提交值
+//     */
+//    SHENANDOAH_COMMITTED("shenandoah_committed", "the number is committed of Shenandoah");
 
     /**
      * 名称
