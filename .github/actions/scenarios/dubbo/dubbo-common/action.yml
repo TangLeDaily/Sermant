@@ -42,7 +42,7 @@ runs:
         SERVER_PORT: 28024
         DUBBO_PROTOCOL_PORT: 28824
       run: |
-        nohup java -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=dubbo-integration-provider --add-opens java.base/java.lang=ALL-UNNAMED -jar \
+        nohup java -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=dubbo-integration-provider --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/jdk.internal=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED -jar \
         sermant-integration-tests/dubbo-test/dubbo-${{ env.projectPath }}-integration-provider/target/dubbo-integration-provider.jar > ${{ env.logDir }}/spring-and-dubbo-provider.log 2>&1 &
     - name: start second spring and dubbo provider service
       shell: bash
@@ -54,7 +54,7 @@ runs:
         SERVER_PORT: 28023
         DUBBO_PROTOCOL_PORT: 28823
       run: |
-        nohup java -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=dubbo-integration-provider --add-opens java.base/java.lang=ALL-UNNAMED -jar \
+        nohup java -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=dubbo-integration-provider --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/jdk.internal=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED -jar \
         sermant-integration-tests/dubbo-test/dubbo-${{ env.projectPath }}-integration-provider/target/dubbo-integration-provider.jar > ${{ env.logDir }}/spring-and-dubbo-provider2.log 2>&1 &
     - name: start provider service
       shell: bash
@@ -64,7 +64,7 @@ runs:
         SERVER_PORT: 28022
         DUBBO_PROTOCOL_PORT: 28822
       run: |
-        nohup java -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=dubbo-integration-provider --add-opens java.base/java.lang=ALL-UNNAMED -jar \
+        nohup java -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=dubbo-integration-provider --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/jdk.internal=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED -jar \
         sermant-integration-tests/dubbo-test/dubbo-${{ env.projectPath }}-integration-provider/target/dubbo-integration-provider.jar > ${{ env.logDir }}/dubbo-provider.log 2>&1 &
     - name: start zookeeper provider service
       shell: bash
@@ -74,7 +74,7 @@ runs:
         SERVER_PORT: 28021
         DUBBO_PROTOCOL_PORT: 28821
       run: |
-        nohup java -jar sermant-integration-tests/dubbo-test/dubbo-${{ env.projectPath }}-integration-provider/target/dubbo-integration-provider.jar --add-opens java.base/java.lang=ALL-UNNAMED > ${{ env.logDir }}/dubbo-zk-provider.log 2>&1 &
+        nohup java -jar sermant-integration-tests/dubbo-test/dubbo-${{ env.projectPath }}-integration-provider/target/dubbo-integration-provider.jar --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/jdk.internal=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED > ${{ env.logDir }}/dubbo-zk-provider.log 2>&1 &
         bash ./sermant-integration-tests/scripts/checkService.sh http://127.0.0.1:28021/actuator/health 120
     - name: waiting for providers start
       shell: bash
@@ -92,7 +92,7 @@ runs:
         SERVER_PORT: 18020
         DUBBO_PROTOCOL_PORT: 18820
       run: |
-        nohup java -Ddubbo.registry.address=zookeeper://127.0.0.1:2181 -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=dubbo-integration-consumer --add-opens java.base/java.lang=ALL-UNNAMED -jar \
+        nohup java -Ddubbo.registry.address=zookeeper://127.0.0.1:2181 -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=dubbo-integration-consumer --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/jdk.internal=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED -jar \
         sermant-integration-tests/dubbo-test/dubbo-${{ env.projectPath }}-integration-consumer/target/dubbo-integration-consumer.jar > ${{ env.logDir }}/spring-and-dubbo-consumer.log 2>&1 &
     - name: start consumer service
       shell: bash
@@ -102,7 +102,7 @@ runs:
         SERVER_PORT: 28020
         DUBBO_PROTOCOL_PORT: 28820
       run: |
-        nohup java -Ddubbo.registry.address=zookeeper://127.0.0.1:2181 -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=dubbo-integration-consumer --add-opens java.base/java.lang=ALL-UNNAMED -jar \
+        nohup java -Ddubbo.registry.address=zookeeper://127.0.0.1:2181 -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=dubbo-integration-consumer --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/jdk.internal=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED -jar \
         sermant-integration-tests/dubbo-test/dubbo-${{ env.projectPath }}-integration-consumer/target/dubbo-integration-consumer.jar > ${{ env.logDir }}/dubbo-consumer.log 2>&1 &
     - name: waiting for consumers start
       shell: bash

@@ -33,4 +33,6 @@ dubbo-common:
 
 ######################
 
-Test for common with command --add-opens java.base/java.lang=ALL-UNNAMED
+Test for common with command --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/jdk.internal=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/jdk.internal=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED
+Test for common with command --add-opens java.base/java.net=ALL-UNNAMED
+Test for common with command --add-opens java.base/jdk.internal=ALL-UNNAMED
