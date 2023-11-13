@@ -138,6 +138,6 @@ jobs:
           echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/spring
-      - name: monitor test for springboot=${{ matrix.springBootVersion }} springCloudVersion=${{ matrix.springCloudVersion }}
-        if: env.enableMonitor == 'true'
-        uses: ./.github/actions/scenarios/spring/monitor
+      - name: (spring common) test for springboot=${{ matrix.springBootVersion }} springCloudVersion=${{ matrix.springCloudVersion }}
+        if: env.enableSpringCommon == 'true'
+        uses: ./.github/actions/scenarios/spring/spring-common

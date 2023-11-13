@@ -19,14 +19,18 @@ NOT IN TEST:
 
 ERROR:
 spring-common:
-[流控]com.huawei.flowcontrol.config.SpringFactoriesInterceptor
-[注册迁移]com.huawei.registry.interceptors.SpringFactoriesInterceptor
+【流控】com.huawei.flowcontrol.config.SpringFactoriesInterceptor
+【注册迁移】com.huawei.registry.interceptors.SpringFactoriesInterceptor
 【负载均衡】com.huaweicloud.loadbalancer.interceptor.SpringFactoriesInterceptor
 【路由】com.huaweicloud.sermant.router.spring.interceptor.HandlerExecutionChainInterceptor
-com.huawei.discovery.interceptors.httpconnection.HttpUrlConnectionConnectInterceptor
-com.huaweicloud.sermant.router.spring.interceptor.HandlerExecutionChainInterceptor
+【路由】com.huawei.discovery.interceptors.httpconnection.HttpUrlConnectionConnectInterceptor
+【路由】com.huaweicloud.sermant.router.spring.interceptor.HandlerExecutionChainInterceptor
 
 spring-dynamic:
-[动态配置]com.huawei.dynamic.config.interceptors.SpringFactoriesInterceptor
+【动态配置】com.huawei.dynamic.config.interceptors.SpringFactoriesInterceptor
 
 dubbo-common:
+
+######################
+
+Test for common with command --add-opens java.base/java.lang=ALL-UNNAMED
