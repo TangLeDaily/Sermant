@@ -1,12 +1,17 @@
 IS SUCCUSS:
+dubbo:
+ visibility
+spring:
+
 
 IS FAIL:
 router
 removel
 monitor - graceful - lane
+xx - common
 
 IN TEST:
-visibility - common
+common - dynamic
 
 
 NOT IN TEST:
