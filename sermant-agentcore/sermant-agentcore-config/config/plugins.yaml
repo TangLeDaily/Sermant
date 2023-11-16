@@ -6,16 +6,16 @@
 #   4. 不同插件的相同拦截点的字节码增强的生效顺序与插件加载顺序是一致的。
 # plugins用于配置静态插件, premain启动时生效, 配置支持静态安装的插件, 不允许卸载
 plugins:
-  #  - flowcontrol
-  #  - service-router
-#  - service-registry
-#  - loadbalancer
-#  - dynamic-config
-#  - monitor
-#  - springboot-registry
-#  - mq-consume-deny
-#  - service-removal
-#  - service-visibility
+  - flowcontrol
+  - service-router
+  - service-registry
+  - loadbalancer
+  - dynamic-config
+  - monitor
+  - springboot-registry
+  - mq-consume-deny
+  - service-removal
+  - service-visibility
   - tag-transmission
 # dynamicPlugins用于配置支持动态安装的插件, agentmain启动时生效, 允许卸载:
 #  1. active类型插件将会主动启用

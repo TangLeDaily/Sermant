@@ -65,7 +65,8 @@ public class ClassLoaderLoadClassInterceptor implements Interceptor {
                 context.changeResult(sermantClazz);
                 context.changeThrowable(null);
             } catch (ClassNotFoundException classNotFoundException) {
-                LOGGER.log(Level.WARNING, "Class can not load class by sermant. ", classNotFoundException.getMessage());
+                LOGGER.log(Level.WARNING, "Class can not load class: {0} by sermant. {1}",
+                        new String[]{name, classNotFoundException.getMessage()});
             }
         }
         return context;
