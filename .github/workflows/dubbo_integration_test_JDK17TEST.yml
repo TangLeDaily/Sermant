@@ -105,6 +105,21 @@ jobs:
           echo "javaVersion=17" >> $GITHUB_ENV
       - name: common operations
         uses: ./.github/actions/common/dubbo
+      - name: (dubbo router) test for ${{ matrix.dubbo-version }}-${{ matrix.dubbo-versions }}
+        if: env.enableDubboRouter == 'true'
+        uses: ./.github/actions/scenarios/dubbo/router
+      - name: monitor test for ${{ matrix.dubbo-version }}-${{ matrix.dubbo-versions }}
+        if: env.enableMonitor == 'true'
+        uses: ./.github/actions/scenarios/dubbo/monitor
+      - name: visibility test for ${{ matrix.dubbo-version }}-${{ matrix.dubbo-versions }}
+        if: env.enableVisibility == 'true'
+        uses: ./.github/actions/scenarios/dubbo/visibility
+      - name: (dubbo common) test for ${{ matrix.dubbo-version }}-${{ matrix.dubbo-versions }}
+        if: env.enableDubboCommon == 'true'
+        uses: ./.github/actions/scenarios/dubbo/dubbo-common
+      - name: (dubbo lane) test for ${{ matrix.dubbo-version }}-${{ matrix.dubbo-versions }}
+        if: env.enableDubboLane == 'true'
+        uses: ./.github/actions/scenarios/dubbo/lane
       - name: removal test for ${{ matrix.dubbo-version }}-${{ matrix.dubbo-versions }}
         if: env.enableRemoval == 'true'
         uses: ./.github/actions/scenarios/dubbo/removal

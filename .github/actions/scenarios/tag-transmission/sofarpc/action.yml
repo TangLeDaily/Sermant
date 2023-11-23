@@ -15,13 +15,13 @@ runs:
     - name: start sofarpc consumer demo
       shell: bash
       run: |
-        nohup java --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED --add-exports java.base/sun.net.www=ALL-UNNAMED -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=default -jar \
+        nohup java --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED --add-opens java.base/sun.net.www.protocol.http=ALL-UNNAMED --add-opens java.base/sun.net.www=ALL-UNNAMED -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=default -jar \
         -Dsermant_log_dir=${{ env.logDir }}/sofarpc-consumer \
         sermant-integration-tests/tag-transmission-test/sofarpc-consumer-demo/target/sofarpc-consumer-demo.jar > ${{ env.logDir }}/sofarpc-consumer.log 2>&1 &
     - name: start sofarpc provider demo
       shell: bash
       run: |
-        nohup java --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED --add-exports java.base/sun.net.www=ALL-UNNAMED -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=default -jar \
+        nohup java --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED --add-opens java.base/sun.net.www.protocol.http=ALL-UNNAMED --add-opens java.base/sun.net.www=ALL-UNNAMED -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=default -jar \
         -Dsermant_log_dir=${{ env.logDir }}/sofarpc-provider \
         sermant-integration-tests/tag-transmission-test/sofarpc-provider-demo/target/sofarpc-provider-demo.jar > ${{ env.logDir }}/sofarpc-provider.log 2>&1 &
     - name: waiting for services start

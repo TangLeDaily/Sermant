@@ -23,14 +23,14 @@ runs:
     - name: start alibabadubbo provider demo
       shell: bash
       run: |
-        nohup java --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED --add-exports java.base/sun.net.www=ALL-UNNAMED -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=default -jar \
+        nohup java --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED --add-opens java.base/sun.net.www.protocol.http=ALL-UNNAMED --add-opens java.base/sun.net.www=ALL-UNNAMED -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=default -jar \
         -Dsermant_log_dir=${{ env.logDir }}/alibaba-dubbo-provider \
         sermant-integration-tests/tag-transmission-test/alibaba-dubbo-provider-demo/target/alibaba-dubbo-provider-demo.jar > ${{ env.logDir }}/alibaba-dubbo-provider.log 2>&1 &
     - name: start alibabadubbo consumer demo
       shell: bash
       run: |
         sleep 5s
-        nohup java --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED --add-exports java.base/sun.net.www=ALL-UNNAMED -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=default -jar \
+        nohup java --add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.net=ALL-UNNAMED --add-opens java.base/java.math=ALL-UNNAMED --add-opens java.base/sun.net.www.protocol.http=ALL-UNNAMED --add-opens java.base/sun.net.www=ALL-UNNAMED -javaagent:sermant-agent-${{ env.sermantVersion }}/agent/sermant-agent.jar=appName=default -jar \
         -Dsermant_log_dir=${{ env.logDir }}/alibaba-dubbo-consumer \
         sermant-integration-tests/tag-transmission-test/alibaba-dubbo-consumer-demo/target/alibaba-dubbo-consumer-demo.jar > ${{ env.logDir }}/alibaba-dubbo-consumer.log 2>&1 &
     - name: waiting for services start

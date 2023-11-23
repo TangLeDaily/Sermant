@@ -133,6 +133,9 @@ jobs:
       - name: (spring tag router) test for springboot=${{ matrix.springBootVersion }} springCloudVersion=${{ matrix.springCloudVersion }}
         if: env.enableSpringTagRouter == 'true'
         uses: ./.github/actions/scenarios/spring/router/spring-tag-router
-      - name: (spring tag az router) test for the springboot=${{ matrix.springBootVersion }} springCloudVersion=${{ matrix.springCloudVersion }}
+      - name: (spring tag az router) test for springboot=${{ matrix.springBootVersion }} springCloudVersion=${{ matrix.springCloudVersion }}
         if: env.enableSpringTagRouter == 'true'
         uses: ./.github/actions/scenarios/spring/router/spring-tag-az-router
+      - name: (spring lane) test for springboot=${{ matrix.springBootVersion }} springCloudVersion=${{ matrix.springCloudVersion }}
+        if: env.enableSpringLane == 'true'
+        uses: ./.github/actions/scenarios/spring/lane
