@@ -17,7 +17,7 @@
     <properties>
         <config.skip.flag>false</config.skip.flag>
         <package.plugin.type>plugin</package.plugin.type>
-        <spring-boot.version>2.7.17</spring-boot.version>
+        <spring-boot.version>2.3.4.RELEASE</spring-boot.version>
         <spring-cloud.version>2.2.1.RELEASE</spring-cloud.version>
         <feigin.version>10.0.0</feigin.version>
         <zuul.version>1.3.0</zuul.version>
